@@ -1637,11 +1637,42 @@
             const proceso = allItems.filter(i => i.seguimiento.estado === 'proceso').length;
             const finalizados = allItems.filter(i => i.seguimiento.estado === 'finalizado').length;
             
-            document.getElementById('statTotal').textContent = total;
-            document.getElementById('statPendientes').textContent = pendientes;
-            document.getElementById('statContactados').textContent = contactados;
-            document.getElementById('statProceso').textContent = proceso;
-            document.getElementById('statFinalizados').textContent = finalizados;
+            // Actualizar contadores del dashboard principal
+            const statTotalEl = document.getElementById('statTotal');
+            if (statTotalEl) statTotalEl.textContent = total;
+            const statPendientesEl = document.getElementById('statPendientes');
+            if (statPendientesEl) statPendientesEl.textContent = pendientes;
+            const statContactadosEl = document.getElementById('statContactados');
+            if (statContactadosEl) statContactadosEl.textContent = contactados;
+            const statProcesoEl = document.getElementById('statProceso');
+            if (statProcesoEl) statProcesoEl.textContent = proceso;
+            const statFinalizadosEl = document.getElementById('statFinalizados');
+            if (statFinalizadosEl) statFinalizadosEl.textContent = finalizados;
+            
+            // Actualizar contadores de la pantalla splash
+            const numReuniones = appData.reuniones.length;
+            const numOportunidades = allItems.filter(item => (item.departamento || 'Lizarte') === 'Innovación').length;
+            
+            // Contar fotos totales
+            let numFotos = 0;
+            appData.reuniones.forEach(item => {
+                numFotos += (Array.isArray(item.fotos) ? item.fotos.length : 0);
+                numFotos += (Array.isArray(item.fotos_extra) ? item.fotos_extra.length : 0);
+            });
+            appData.adicional.forEach(item => {
+                numFotos += (Array.isArray(item.fotos) ? item.fotos.length : 0);
+                numFotos += (Array.isArray(item.fotos_extra) ? item.fotos_extra.length : 0);
+            });
+            
+            // Actualizar los elementos de la pantalla splash si existen
+            const stat1El = document.getElementById('stat1');
+            if (stat1El) stat1El.textContent = total;
+            const stat2El = document.getElementById('stat2');
+            if (stat2El) stat2El.textContent = numReuniones;
+            const stat3El = document.getElementById('stat3');
+            if (stat3El) stat3El.textContent = numFotos;
+            const stat4El = document.getElementById('stat4');
+            if (stat4El) stat4El.textContent = numOportunidades;
         }
         
         function populateResponsableFilter() {
