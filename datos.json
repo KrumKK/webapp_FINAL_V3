@@ -662,6 +662,29 @@
       "departamento": "Innovación",
       "prioridad": 1,
       "fotos_extra": []
+    },
+    {
+      "id": "1765886037129",
+      "company": "Nueva Empresa",
+      "person": "asdasd",
+      "product": "asdads",
+      "time": "",
+      "stand": "",
+      "comments": "",
+      "departamento": "Innovación",
+      "prioridad": 1,
+      "fotos": [],
+      "fotos_extra": [],
+      "seguimiento": {
+        "responsable": "",
+        "contactado": false,
+        "respuestaRecibida": false,
+        "proximaAccion": "",
+        "fechaSeguimiento": "",
+        "acciones": [],
+        "estado": "pendiente",
+        "email": ""
+      }
     }
   ],
   "adicional": [
