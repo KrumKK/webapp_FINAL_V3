@@ -1276,6 +1276,9 @@
             const response = await fetch('datos.json');
             appData = await response.json();
             
+            console.log('📥 JSON cargado - Reuniones:', appData.reuniones.length, 'Adicional:', appData.adicional.length);
+            console.log('📋 Total empresas en JSON:', appData.reuniones.length + appData.adicional.length);
+            
             // Inicializar campos si no existen en el JSON
             appData.reuniones.forEach(item => {
                 if (!item.seguimiento) {
@@ -1334,8 +1337,8 @@
             
             // Añadir NUEVAS empresas que no están en el JSON base
             Object.keys(textosModificados).forEach(id => {
-                const existeEnReuniones = appData.reuniones.find(item => item.id == id);
-                const existeEnAdicional = appData.adicional.find(item => item.id == id);
+                const existeEnReuniones = appData.reuniones.find(item => String(item.id) === String(id));
+                const existeEnAdicional = appData.adicional.find(item => String(item.id) === String(id));
                 
                 if (!existeEnReuniones && !existeEnAdicional) {
                     const nuevaEmpresa = textosModificados[id];
@@ -1367,6 +1370,9 @@
                     item.seguimiento = seguimientoData[item.id];
                 }
             });
+            
+            console.log('✅ Datos procesados - Reuniones:', appData.reuniones.length, 'Adicional:', appData.adicional.length);
+            console.log('📋 Total empresas después de aplicar modificaciones:', appData.reuniones.length + appData.adicional.length);
             
             populateResponsableFilter();
             renderAll();
@@ -2074,7 +2080,9 @@
         
         function renderReuniones() {
             const container = document.getElementById('reunionesContainer');
+            console.log('🎨 Renderizando reuniones - Total en appData:', appData.reuniones.length);
             const filtered = applyFiltersToData(appData.reuniones);
+            console.log('🎨 Reuniones después de filtros:', filtered.length);
             
             container.innerHTML = filtered.map((item, idx) => {
                 const realIdx = appData.reuniones.indexOf(item);
@@ -2168,7 +2176,9 @@
         
         function renderAdicional() {
             const container = document.getElementById('adicionalContainer');
+            console.log('🎨 Renderizando adicional - Total en appData:', appData.adicional.length);
             const filtered = applyFiltersToData(appData.adicional);
+            console.log('🎨 Adicional después de filtros:', filtered.length);
             
             container.innerHTML = filtered.map((item, idx) => {
                 const realIdx = appData.adicional.indexOf(item);
