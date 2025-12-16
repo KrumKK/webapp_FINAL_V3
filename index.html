@@ -2895,12 +2895,28 @@ Sistema de Seguimiento Automechanika`;
                     }
                 });
                 
-                // Añadir NUEVAS empresas en reuniones que no están en datosBase
+                // Cargar lista de empresas eliminadas ANTES de añadir nuevas
+                const empresasEliminadas = JSON.parse(localStorage.getItem('empresas_eliminadas_automechanika') || '{}');
+                
+                // Añadir NUEVAS empresas en reuniones que no están en datosBase Y no fueron eliminadas
                 Object.keys(textosModificados).forEach(id => {
                     const existeEnReuniones = datosBase.reuniones.find(item => item.id == id);
                     const existeEnAdicional = datosBase.adicional.find(item => item.id == id);
                     
-                    if (!existeEnReuniones && !existeEnAdicional) {
+                    // Verificar si fue eliminada
+                    const idStr = String(id);
+                    const idNum = Number(id);
+                    const fueEliminada = (empresasEliminadas.reuniones && (
+                        empresasEliminadas.reuniones.includes(idStr) || 
+                        empresasEliminadas.reuniones.includes(id) ||
+                        empresasEliminadas.reuniones.includes(idNum)
+                    )) || (empresasEliminadas.adicional && (
+                        empresasEliminadas.adicional.includes(idStr) || 
+                        empresasEliminadas.adicional.includes(id) ||
+                        empresasEliminadas.adicional.includes(idNum)
+                    ));
+                    
+                    if (!existeEnReuniones && !existeEnAdicional && !fueEliminada) {
                         const nuevaEmpresa = textosModificados[id];
                         // Si tiene campo 'company', es de reuniones
                         if (nuevaEmpresa.company !== undefined) {
@@ -2918,6 +2934,8 @@ Sistema de Seguimiento Automechanika`;
                                 ...nuevaEmpresa
                             });
                         }
+                    } else if (fueEliminada) {
+                        console.log('🚫 Omitiendo empresa eliminada (ID:', id, ')');
                     }
                 });
                 
@@ -2964,24 +2982,47 @@ Sistema de Seguimiento Automechanika`;
                     }
                 });
                 
-                // Eliminar empresas que fueron borradas
+                // Eliminar empresas que fueron borradas (ya cargamos empresasEliminadas arriba)
                 console.log('🗑️ Eliminando empresas borradas...');
-                const empresasEliminadas = JSON.parse(localStorage.getItem('empresas_eliminadas_automechanika') || '{}');
                 
                 if (empresasEliminadas.reuniones && empresasEliminadas.reuniones.length > 0) {
                     console.log('🗑️ Eliminando', empresasEliminadas.reuniones.length, 'reuniones borradas');
+                    console.log('🗑️ IDs de reuniones eliminadas:', empresasEliminadas.reuniones);
+                    const antes = datosBase.reuniones.length;
                     datosBase.reuniones = datosBase.reuniones.filter(item => {
                         const itemId = String(item.id);
-                        return !empresasEliminadas.reuniones.includes(itemId) && !empresasEliminadas.reuniones.includes(item.id);
+                        const itemIdNum = Number(item.id);
+                        // Comparar tanto como string como número
+                        const estaEliminada = empresasEliminadas.reuniones.includes(itemId) || 
+                                             empresasEliminadas.reuniones.includes(item.id) ||
+                                             empresasEliminadas.reuniones.includes(itemIdNum) ||
+                                             empresasEliminadas.reuniones.some(id => String(id) === itemId || Number(id) === itemIdNum);
+                        if (estaEliminada) {
+                            console.log('🗑️ Eliminando reunión:', item.company, '(ID:', item.id, ')');
+                        }
+                        return !estaEliminada;
                     });
+                    console.log('🗑️ Reuniones antes:', antes, 'después:', datosBase.reuniones.length);
                 }
                 
                 if (empresasEliminadas.adicional && empresasEliminadas.adicional.length > 0) {
                     console.log('🗑️ Eliminando', empresasEliminadas.adicional.length, 'empresas adicionales borradas');
+                    console.log('🗑️ IDs de adicional eliminadas:', empresasEliminadas.adicional);
+                    const antes = datosBase.adicional.length;
                     datosBase.adicional = datosBase.adicional.filter(item => {
                         const itemId = String(item.id);
-                        return !empresasEliminadas.adicional.includes(itemId) && !empresasEliminadas.adicional.includes(item.id);
+                        const itemIdNum = Number(item.id);
+                        // Comparar tanto como string como número
+                        const estaEliminada = empresasEliminadas.adicional.includes(itemId) || 
+                                             empresasEliminadas.adicional.includes(item.id) ||
+                                             empresasEliminadas.adicional.includes(itemIdNum) ||
+                                             empresasEliminadas.adicional.some(id => String(id) === itemId || Number(id) === itemIdNum);
+                        if (estaEliminada) {
+                            console.log('🗑️ Eliminando adicional:', item.empresa, '(ID:', item.id, ')');
+                        }
+                        return !estaEliminada;
                     });
+                    console.log('🗑️ Adicional antes:', antes, 'después:', datosBase.adicional.length);
                 }
                 
                 // Generar JSON
