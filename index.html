@@ -1102,11 +1102,6 @@
         📤 EXPORTAR
     </button>
     
-    <!-- Botón para activar auto-guardado -->
-    <button class="btn-float-export" style="bottom: 100px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="activarAutoGuardado()" title="Activar guardado automático en datos.json" id="btnAutoGuardado">
-        💾 AUTO-GUARDAR
-    </button>
-    
     <!-- Modal para seleccionar dónde añadir empresa -->
     <div id="addEmpresaModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center;">
         <div style="background: white; border-radius: 16px; padding: 30px; width: 90%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
@@ -1264,7 +1259,6 @@
         let appData = null;
         let equipoLizarte = [];
         let currentUploadTarget = null;
-        let fileHandle = null; // Handle del archivo para auto-guardado
         let appConfig = {
             titulo: 'Seguimiento Automechanika Shanghai 2025',
             subtitulo: 'Lizarte - Sistema de Gestión de Contactos',
