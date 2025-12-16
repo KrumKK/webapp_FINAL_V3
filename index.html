@@ -1629,6 +1629,29 @@
             setTimeout(() => indicator.classList.remove('show'), 2000);
         }
         
+        function updateTabCounters() {
+            // Actualizar contadores en las pestañas
+            const numReuniones = appData.reuniones.length;
+            const numAdicional = appData.adicional.length;
+            
+            // Buscar y actualizar el botón de pestaña "Reuniones"
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                const text = tab.textContent;
+                // Preservar el onclick al actualizar
+                const onclickAttr = tab.getAttribute('onclick');
+                if (text.includes('Reuniones')) {
+                    // Reemplazar el número manteniendo el emoji y el texto
+                    tab.textContent = `🤝 Reuniones (${numReuniones})`;
+                    if (onclickAttr) tab.setAttribute('onclick', onclickAttr);
+                } else if (text.includes('Info Adicional')) {
+                    // Reemplazar el número manteniendo el emoji y el texto
+                    tab.textContent = `📋 Info Adicional (${numAdicional})`;
+                    if (onclickAttr) tab.setAttribute('onclick', onclickAttr);
+                }
+            });
+        }
+        
         function updateStats() {
             const allItems = [...appData.reuniones, ...appData.adicional];
             const total = allItems.length;
@@ -1648,6 +1671,9 @@
             if (statProcesoEl) statProcesoEl.textContent = proceso;
             const statFinalizadosEl = document.getElementById('statFinalizados');
             if (statFinalizadosEl) statFinalizadosEl.textContent = finalizados;
+            
+            // Actualizar contadores de las pestañas
+            updateTabCounters();
             
             // Actualizar contadores de la pantalla splash
             const numReuniones = appData.reuniones.length;
