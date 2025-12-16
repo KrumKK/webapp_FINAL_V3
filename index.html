@@ -1365,6 +1365,23 @@
                 }
             });
             
+            // Eliminar empresas que fueron borradas
+            const empresasEliminadas = JSON.parse(localStorage.getItem('empresas_eliminadas_automechanika') || '{}');
+            if (empresasEliminadas.reuniones && empresasEliminadas.reuniones.length > 0) {
+                console.log('🗑️ Filtrando', empresasEliminadas.reuniones.length, 'reuniones eliminadas');
+                appData.reuniones = appData.reuniones.filter(item => {
+                    const itemId = String(item.id);
+                    return !empresasEliminadas.reuniones.includes(itemId) && !empresasEliminadas.reuniones.includes(item.id);
+                });
+            }
+            if (empresasEliminadas.adicional && empresasEliminadas.adicional.length > 0) {
+                console.log('🗑️ Filtrando', empresasEliminadas.adicional.length, 'empresas adicionales eliminadas');
+                appData.adicional = appData.adicional.filter(item => {
+                    const itemId = String(item.id);
+                    return !empresasEliminadas.adicional.includes(itemId) && !empresasEliminadas.adicional.includes(item.id);
+                });
+            }
+            
             console.log('✅ Datos procesados - Reuniones:', appData.reuniones.length, 'Adicional:', appData.adicional.length);
             console.log('📋 Total empresas después de aplicar modificaciones:', appData.reuniones.length + appData.adicional.length);
             
@@ -1841,19 +1858,61 @@
         
         function deleteReunion(index) {
             if (confirm('¿Estás seguro de que quieres eliminar esta empresa?')) {
+                const item = appData.reuniones[index];
+                const itemId = item.id;
+                
+                // Guardar en lista de empresas eliminadas
+                const empresasEliminadas = JSON.parse(localStorage.getItem('empresas_eliminadas_automechanika') || '{}');
+                if (!empresasEliminadas.reuniones) empresasEliminadas.reuniones = [];
+                const itemIdStr = String(itemId);
+                if (!empresasEliminadas.reuniones.includes(itemIdStr) && !empresasEliminadas.reuniones.includes(itemId)) {
+                    empresasEliminadas.reuniones.push(itemIdStr);
+                }
+                localStorage.setItem('empresas_eliminadas_automechanika', JSON.stringify(empresasEliminadas));
+                
+                // Eliminar de appData
                 appData.reuniones.splice(index, 1);
+                
+                // Eliminar de textos_modificados si existe
+                const textosData = JSON.parse(localStorage.getItem('textos_modificados_automechanika') || '{}');
+                delete textosData[itemIdStr];
+                delete textosData[itemId];
+                localStorage.setItem('textos_modificados_automechanika', JSON.stringify(textosData));
+                
                 saveData();
                 renderAll();
                 updateStats();
+                console.log('🗑️ Empresa eliminada:', item.company, '(ID:', itemId, ')');
             }
         }
         
         function deleteAdicional(index) {
             if (confirm('¿Estás seguro de que quieres eliminar esta empresa?')) {
+                const item = appData.adicional[index];
+                const itemId = item.id;
+                
+                // Guardar en lista de empresas eliminadas
+                const empresasEliminadas = JSON.parse(localStorage.getItem('empresas_eliminadas_automechanika') || '{}');
+                if (!empresasEliminadas.adicional) empresasEliminadas.adicional = [];
+                const itemIdStr = String(itemId);
+                if (!empresasEliminadas.adicional.includes(itemIdStr) && !empresasEliminadas.adicional.includes(itemId)) {
+                    empresasEliminadas.adicional.push(itemIdStr);
+                }
+                localStorage.setItem('empresas_eliminadas_automechanika', JSON.stringify(empresasEliminadas));
+                
+                // Eliminar de appData
                 appData.adicional.splice(index, 1);
+                
+                // Eliminar de textos_modificados si existe
+                const textosData = JSON.parse(localStorage.getItem('textos_modificados_automechanika') || '{}');
+                delete textosData[itemIdStr];
+                delete textosData[itemId];
+                localStorage.setItem('textos_modificados_automechanika', JSON.stringify(textosData));
+                
                 saveData();
                 renderAll();
                 updateStats();
+                console.log('🗑️ Empresa eliminada:', item.empresa, '(ID:', itemId, ')');
             }
 
         function addFotos(type, index, files) {
@@ -2904,6 +2963,26 @@ Sistema de Seguimiento Automechanika`;
                         item.fotos = item.fotos.filter((foto, idx) => !deletedIndices.includes(idx));
                     }
                 });
+                
+                // Eliminar empresas que fueron borradas
+                console.log('🗑️ Eliminando empresas borradas...');
+                const empresasEliminadas = JSON.parse(localStorage.getItem('empresas_eliminadas_automechanika') || '{}');
+                
+                if (empresasEliminadas.reuniones && empresasEliminadas.reuniones.length > 0) {
+                    console.log('🗑️ Eliminando', empresasEliminadas.reuniones.length, 'reuniones borradas');
+                    datosBase.reuniones = datosBase.reuniones.filter(item => {
+                        const itemId = String(item.id);
+                        return !empresasEliminadas.reuniones.includes(itemId) && !empresasEliminadas.reuniones.includes(item.id);
+                    });
+                }
+                
+                if (empresasEliminadas.adicional && empresasEliminadas.adicional.length > 0) {
+                    console.log('🗑️ Eliminando', empresasEliminadas.adicional.length, 'empresas adicionales borradas');
+                    datosBase.adicional = datosBase.adicional.filter(item => {
+                        const itemId = String(item.id);
+                        return !empresasEliminadas.adicional.includes(itemId) && !empresasEliminadas.adicional.includes(item.id);
+                    });
+                }
                 
                 // Generar JSON
                 console.log('📦 Generando archivo JSON...');
