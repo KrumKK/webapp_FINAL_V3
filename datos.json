@@ -202,7 +202,7 @@
       "product": "Direcciones",
       "time": "19:32",
       "stand": "Hall 6.1 F55",
-      "comments": "Nueva línea de fabricación, han mandado ya dos cremalleras de DAEs.\nEs muy interesante homologar cremalleras para DAEs, ahora puede que el precio/unidad sea alto, pero en cuanto baje, será estratégico para Lizarte.",
+      "comments": "Empresa gestionado por Búlgaros en South Africa. Le conocí en el feria, estaban buscando productos al igual que yo. \nMe presento y les explico a lo que nos dedicamos, muestran gran interés en la sección de LizOn. Quieren comenzar a hacer reman de mecatrónica en su empresa pero tienen pocos conocimientos. \nPosibilidad de venderles producto LizOn pero ojo, el retorno del casco sería un problema. \nPosibilidad de venderles los smartCan \nPosibilidad de venderles formación en reman de LizOn.",
       "id": 1763983993823,
       "fotos": [
         "fotos/reunion_aierfu_foto1.jpg"
@@ -928,6 +928,71 @@
         "email": ""
       },
       "departamento": "Lizarte"
+    },
+    {
+      "id": "add_1765891635308",
+      "empresa": "TrakMotive ",
+      "producto": "Componentes electrónicos Liz On",
+      "notas": "Sean Haung; suang@trakmotive.com \nIngeniero electrónico en TrakMotive con muchos contactos. Me lo presenta Pablo Menéndez, ya que es una persona que conoce muchas empresas que nos pueden proveer de componentes electrónicos directamente, saltándonos intermediarios, como puede ser Altezza o New Vision. ",
+      "oportunidad": "Proveedores directos de componentes electrónicos. ",
+      "departamento": "Lizarte",
+      "prioridad": 0,
+      "fotos": [],
+      "seguimiento": {
+        "responsable": "Innovación",
+        "contactado": false,
+        "respuestaRecibida": false,
+        "proximaAccion": "",
+        "fechaSeguimiento": "",
+        "acciones": [
+          "Krum, primera toma de contacto a través de email y poner a Javier Hualde en copia para decir que componentes son los que necesitamos. \nY, luego procedes a contactar con los proveedores para estableces lazos y comprar muestras. "
+        ],
+        "estado": "pendiente",
+        "email": "krum@lizarte.com"
+      }
+    },
+    {
+      "id": "add_1765891979628",
+      "empresa": "BEARINGS KAY; TIANTUO BEARING Co., Ltd",
+      "producto": "Rodamientos para Bombas y Direcciones ",
+      "notas": "Contacto; FuKay ; bearing789@gmail.com\n",
+      "oportunidad": "",
+      "departamento": "Lizarte",
+      "prioridad": 1,
+      "fotos": [],
+      "seguimiento": {
+        "responsable": "Compras",
+        "contactado": false,
+        "respuestaRecibida": false,
+        "proximaAccion": "",
+        "fechaSeguimiento": "",
+        "acciones": [
+          "Solicitar catálogo para ver referencias, modelos y precios "
+        ],
+        "estado": "pendiente",
+        "email": "jbaztan@lizarte.com"
+      }
+    },
+    {
+      "id": "add_1765892154124",
+      "empresa": "FORTUNE Ningbo Fortune Auto Parts Manufacture",
+      "producto": "Guantes de trabajo",
+      "notas": "Ofrecen guantes naranjas cómo los que utilizamos ahora ",
+      "oportunidad": "Ahora del 50% en la compra de los guantes. Ya tenemos primera oferta y el ahorro es del 50%",
+      "departamento": "Lizarte",
+      "prioridad": 1,
+      "fotos": [],
+      "seguimiento": {
+        "responsable": "Compras",
+        "contactado": false,
+        "respuestaRecibida": false,
+        "proximaAccion": "",
+        "fechaSeguimiento": "",
+        "acciones": [],
+        "estado": "proceso",
+        "email": "jbaztan@lizarte.com"
+      },
+      "fotos_extra": []
     }
   ]
 }
