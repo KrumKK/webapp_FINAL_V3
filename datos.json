@@ -10,7 +10,7 @@
       "id": 1763364468847,
       "fotos": [],
       "seguimiento": {
-        "responsable": "Calidad",
+        "responsable": "Equipo Compras",
         "contactado": false,
         "respuestaRecibida": false,
         "proximaAccion": "",
@@ -19,11 +19,11 @@
           "Homologar nuevos grupos hidráulicos",
           "Comprobar de nuevo si Honda CR-V sería interesante comprar DAES nuevas"
         ],
-        "estado": "contactado",
-        "email": "jhualde@lizarte.com"
+        "estado": "pendiente",
+        "email": "jbaztan@lizarte.com"
       },
       "departamento": "Innovación",
-      "prioridad": 0,
+      "prioridad": 1,
       "fotos_extra": []
     },
     {
@@ -36,7 +36,7 @@
       "id": 1763378341743,
       "fotos": [],
       "seguimiento": {
-        "responsable": "Innovación",
+        "responsable": "Equipo Compras",
         "contactado": false,
         "respuestaRecibida": false,
         "proximaAccion": "",
@@ -44,8 +44,7 @@
         "acciones": [
           "Posible proveedor de anillos de airbag"
         ],
-        "estado": "pendiente",
-        "email": "krum@lizarte.com"
+        "estado": "pendiente"
       },
       "departamento": "Innovación",
       "prioridad": 1,
@@ -79,11 +78,11 @@
       "product": "Bomba universal",
       "time": "08:12",
       "stand": "Hall1.1 A10",
-      "comments": "He visitado a la empresa que fabrica la bomba universal para retrofitting. Me han llevado a las instalaciones de Quanxing y durante el recorrido, Leo me ha revelado información importante: la empresa Bourge no es fabricante, sino una comercializadora. No han sido sinceros con nosotros. El fabricante real de la bomba es Quanxing.\nA partir de ahora, vamos a tratar directamente con Kathy y Leo para desarrollar el proyecto, eliminando intermediarios.\nObjetivo del proyecto:\nRecibir la bomba sin software precargado para que desde Lizarte podamos cargar nuestro propio software y así adaptar la bomba a cualquier aplicación. Además, trabajaremos en el diseño de soportes personalizados para facilitar la instalación en distintos vehículos.",
+      "comments": "He visitado a la empresa que fabrica la bomba universal para retrofitting. Me han llevado a las instalaciones de Quanxing y durante el recorrido, Leo me ha revelado información relevante: la empresa Bourge no es fabricante, sino una comercializadora. No han sido sinceros conmigo. El fabricante real de la bomba es Quanxing.\nA partir de ahora, vamos a tratar directamente con Kathy y Leo para desarrollar el proyecto, eliminando intermediarios.\nObjetivo del proyecto:\nRecibir la bomba sin software precargado para que desde Lizarte podamos cargar nuestro propio software y así adaptar la bomba a cualquier aplicación. Además, trabajaremos en el diseño de soportes personalizados para facilitar la instalación en distintos vehículos.",
       "id": 1763896381600,
       "fotos": [],
       "seguimiento": {
-        "responsable": "Innovación",
+        "responsable": "Equipo Calidad",
         "contactado": false,
         "respuestaRecibida": false,
         "proximaAccion": "",
@@ -93,10 +92,10 @@
           "Segunda acción; qué necesitan para mandarnos una bomba sin software para que nosotros carguemos el nuestro?"
         ],
         "estado": "contactado",
-        "email": "krum@lizarte.com"
+        "email": "jhualde@lizarte.com"
       },
       "departamento": "Innovación",
-      "prioridad": 0,
+      "prioridad": 1,
       "fotos_extra": []
     },
     {
@@ -105,23 +104,20 @@
       "product": "EPB",
       "time": "11:29",
       "stand": "Hall 6.1 E02",
-      "comments": "Fabricante chino especializado en componentes de sistemas de freno hidráulico: pinzas, servofrenos y bombas de freno. Suministran directamente a OEMs como Ford y Nissan, lo cual avala su nivel de calidad y capacidad productiva.\nDisponen de departamento de I+D propio y fabricación avanzada tanto para componentes de freno de disco como de tambor. Su enfoque está en calidad y tecnología, integrando sistemas ABS y controles electrónicos en sus desarrollos.\nValoración: Proveedor interesante a tener en cuenta si queremos diversificar o ampliar la línea de productos de frenado",
+      "comments": "Fabricante chino especializado en componentes de sistemas de freno hidráulico: pinzas, servofrenos y bombas de freno. Suministran a OEMs como Ford y Nissan. Disponen de capacidad de I+D y fabricación avanzada para componentes de freno de disco y tambor, con enfoque en calidad y tecnología. Integran sistemas ABS y controles electrónicos en sus desarrollos.",
       "id": 1763954957878,
       "fotos": [],
       "seguimiento": {
-        "responsable": "Innovación",
+        "responsable": "",
         "contactado": false,
         "respuestaRecibida": false,
         "proximaAccion": "",
         "fechaSeguimiento": "",
-        "acciones": [
-          "Valorar los productos que ofrecen (pinzas, servofrenos, bombas de freno) como posibles nuevos productos a incorporar en el catálogo de Lizarte. Solicitar catálogo completo y referencias para estudiar viabilidad comercial."
-        ],
-        "estado": "pendiente",
-        "email": "krum@lizarte.com"
+        "acciones": [],
+        "estado": "pendiente"
       },
       "departamento": "Innovación",
-      "prioridad": 2,
+      "prioridad": 1,
       "fotos_extra": []
     },
     {
@@ -130,7 +126,7 @@
       "product": "EPB y pinzas de freno",
       "time": "11:34",
       "stand": "Hall 3 E56",
-      "comments": "Empresa que comercializa frenos de estacionamiento electrónicos (EPB) y pinzas de freno. Trabajan con referencias para marcas como Volkswagen y BMW, lo cual indica que cubren vehículos del parque europeo.",
+      "comments": "Venden EPB, pinzas de freno. VW,BMW.",
       "id": 1763955286688,
       "fotos": [],
       "seguimiento": {
@@ -140,7 +136,7 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          "Interesante para valorar como proveedor de componentes de frenado, especialmente los EPB que están cada vez más presentes en los vehículos modernos."
+          "Valorar como nuevo producto para el catalogo de Lizarte"
         ],
         "estado": "pendiente",
         "email": "krum@lizarte.com"
@@ -177,7 +173,7 @@
       "product": "Rodamientos",
       "time": "12:15",
       "stand": "Hall 1.1 D33",
-      "comments": "Interesante opción para comprar rodamientos en China y reducir costes. El producto expuesto en el stand me ha causado buena impresión, aparentan tener una calidad aceptable tanto en acabado como en materiales.",
+      "comments": "Interesante, opción para comprar rodamientos en China y reducir costes. El producto expuesto en el stand me ha causado buena impresión, aparentan tener una calidad aceptable.",
       "id": 1763957712020,
       "fotos": [],
       "seguimiento": {
@@ -187,12 +183,12 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          "Solicitar muestras de las referencias top que estamos comprando actualmente para poder compararlas con nuestros proveedores habituales y evaluar la relación calidad-precio."
+          "Siguiente paso: solicitar muestras de las referencias top que estamos comprando actualmente para poder compararlas con nuestros proveedores habituales."
         ],
         "estado": "pendiente",
         "email": "jbaztan@lizarte.com"
       },
-      "departamento": "Innovación",
+      "departamento": "Lizarte",
       "prioridad": 1,
       "fotos_extra": []
     },
@@ -202,7 +198,7 @@
       "product": "Direcciones",
       "time": "19:32",
       "stand": "Hall 6.1 F55",
-      "comments": "Me he reunido con Dane, quien insiste en convertirse en nuestro proveedor principal. Le he explicado que si la relación calidad-precio es mejor que la del proveedor actual, no habría problema por nuestra parte en considerarlo.\nNos han enviado dos cremalleras para sistemas DAES. Durante la reunión, me ha confirmado que las muestras ya han salido de sus instalaciones de camino a Lizarte.\nValoración:\nEs una buena oportunidad, pero el inconveniente principal es el precio. Se trata de un producto que ofrecen varios proveedores, pero al ser tan nuevo en el mercado, los precios son realmente altos y actualmente no resulta rentable.",
+      "comments": "Nueva línea de fabricación, han mandado ya dos cremalleras de DAEs.\nEs muy interesante homologar cremalleras para DAEs, ahora puede que el precio/unidad sea alto, pero en cuanto baje, será estratégico para Lizarte.",
       "id": 1763983993823,
       "fotos": [
         "fotos/reunion_aierfu_foto1.jpg"
@@ -214,7 +210,7 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          "Vamos a revisar y homologar la cremallera si la calidad lo permite. Cuando los precios del mercado mejoren y sean más competitivos, procederemos a realizar compras. De momento, mantenemos el contacto abierto para el futuro."
+          "Revisar las cremalleras que han mandado para homologar."
         ],
         "estado": "pendiente",
         "email": "jhualde@lizarte.com"
@@ -229,7 +225,7 @@
       "product": "Conectores LizOn",
       "time": "10:00",
       "stand": "Hall 4.1 C56",
-      "comments": "Proveedor de conectores de todo tipo. Como se puede observar en la foto, disponen de una amplia gama de referencias que podrían cubrir nuestras necesidades tanto para la línea general de Lizarte como para LizOn.",
+      "comments": "Proveedor de conectores de todo tipo. Como se puede observar en la foto, disponen de una amplia gama de referencias. Podrían servir tanto para la línea general como para LizOn.\nValorar como alternativa a Shungbang para diversificar proveedores o mejorar condiciones.",
       "id": 1764122436398,
       "fotos": [
         "fotos/reunion_ylcnc_foto2.jpg",
@@ -242,7 +238,7 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          " Valorar como alternativa a Shungbang para diversificar la cartera de proveedores o mejorar condiciones comerciales. Solicitar catálogo y precios de las referencias que actualmente compramos para poder comparar."
+          "Mandar los productos que estamos ahora comprando a China para ver si tienen stock, precio y nuevos productos."
         ],
         "estado": "pendiente",
         "email": "jbaztan@lizarte.com"
@@ -257,7 +253,7 @@
       "product": "Conectores LizOn",
       "time": "10:17",
       "stand": "Hall 4.1 H119",
-      "comments": "Proveedor de conectores – Alternativa a Shungbang\nProveedor de conectores de todo tipo. Como se puede observar en la foto, disponen de una amplia gama de referencias que podrían cubrir nuestras necesidades tanto para la línea general de Lizarte como para LizOn.\nOjo: tienen un tamaño similar a Shungbang, nuestro proveedor actual. Aunque el stand en la feria parecía pequeño, la empresa tiene potencial real.",
+      "comments": "Proveedor de conectores de todo tipo. Como se puede observar en la foto, disponen de una amplia gama de referencias. Podrían servir tanto para la línea general como para LizOn.\nValorar como alternativa a Shungbang para diversificar proveedores o mejorar condiciones. Ojo tiene el mismo tamaño que ShungBang, proveedor actual. Puede parecer stand pequeño pero tiene potencial.",
       "id": 1764123486251,
       "fotos": [
         "fotos/reunion___cangzhou_fubang_foto2.jpg",
@@ -270,7 +266,7 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          " Valorar como alternativa a Shungbang para diversificar la cartera de proveedores o mejorar condiciones comerciales. Solicitar catálogo y precios de las referencias que actualmente compramos para poder comparar."
+          "Mandar los productos que estamos ahora comprando a China para ver si tienen stock, precio y nuevos productos."
         ],
         "estado": "pendiente",
         "email": "jbaztan@lizarte.com"
@@ -285,7 +281,7 @@
       "product": "EGR Valve",
       "time": "10:31",
       "stand": "Hall 4.1 E43",
-      "comments": "Disponen de muchas referencias de válvulas EGR en su catálogo. Nos conocen como marca reconocida en Europa, aunque hasta ahora no habían contactado con nosotros.\nEl proveedor tiene buena pinta para válvulas EGR, tanto por la variedad de referencias como por la impresión general del stand.",
+      "comments": "Proveedor de EGR – Marca reconocida en Europa\nEmpresa que dispone de muchas referencias de válvulas EGR en su catálogo, lo que indica una buena cobertura de aplicaciones para el mercado europeo. Un detalle interesante es que nos conocen como marca reconocida en Europa, lo cual habla bien de la reputación que Lizarte ha construido en el sector. Sin embargo, curiosamente, hasta ahora no habían contactado con nosotros a pesar de conocernos.\nEl proveedor tiene buena pinta para válvulas EGR, tanto por la variedad de referencias como por la impresión general transmitida durante la feria. El hecho de que conozcan el mercado europeo y nuestra posición en él es un punto a favor, ya que facilita el entendimiento mutuo de las necesidades y estándares de calidad requeridos.\n\nValoración: Merece la pena explorar la posibilidad de colaboración. Podría convertirse en un proveedor alternativo o complementario para nuestra línea de EGR.",
       "id": 1764124295568,
       "fotos": [
         "fotos/reunion_yangyu_foto1.jpg",
@@ -299,7 +295,7 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          "Merece la pena explorar la posibilidad de colaboración. Solicitar catálogo completo y más información sobre su gama de producto para evaluar si encaja con nuestras necesidades y compartir con Richard."
+          "Solicitar catálogo completo y más información sobre su gama de producto. Identificar qué referencias coinciden con las que actualmente comercializamos o podríamos incorporar, y pedir precios para comparar con los proveedores actuales y compartir con Richard."
         ],
         "estado": "pendiente",
         "email": "krum@lizarte.com"
@@ -311,10 +307,10 @@
     {
       "company": "Matteo Vehicle Parts Factory",
       "person": "Marco (General Manager); 2826664554@qq.com",
-      "product": "Relés",
+      "product": "Relen",
       "time": "10:44",
       "stand": "Hall 4.1 B61",
-      "comments": "Empresa especializada en relés de todo tipo y para distintos amperajes. Podría ser útil para cubrir necesidades de componentes eléctricos en diferentes aplicaciones, tanto para la línea general como para LizOn.",
+      "comments": "Empresa especializada en relés de todo tipo y para distintos amperajes. Podría ser útil para cubrir necesidades de componentes eléctricos en diferentes aplicaciones.",
       "id": 1764125076721,
       "fotos": [
         "fotos/reunion_matteo_vehicle_parts_factory_foto1.jpg",
@@ -372,7 +368,7 @@
       "product": "Direcciones y Terminales",
       "time": "12:00",
       "stand": "Hall 5.1 F99",
-      "comments": "Empresa que comercializa direcciones hidráulicas completas. Sin embargo, lo más destacable de este proveedor es que también venden terminales como componente separado, algo que no todos los proveedores ofrecen y que podría resultar interesante para nuestras necesidades de recambio y reparación",
+      "comments": "Empresa que comercializa direcciones hidráulicas completas. Sin embargo, lo más destacable de este proveedor es que también venden terminales como componente separado, algo que no todos los proveedores ofrecen y que podría resultar interesante para nuestras necesidades de recambio y reparación.\n",
       "id": 1764129667486,
       "fotos": [
         "fotos/reunion_quanbang_foto1.jpg"
@@ -384,12 +380,12 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          "Valorar la idea de comprar terminales en vez de recuperar los actuales."
+          "Solicitar el catálogo de terminales. Una vez recibido, compartir con Javier Baztán para revisar las referencias disponibles, valorar si encajan con nuestras aplicaciones y solicitar precios para comparar con los proveedores actuales.\n"
         ],
         "estado": "pendiente",
         "email": "jbaztan@lizarte.com"
       },
-      "departamento": "Innovación",
+      "departamento": "Lizarte",
       "prioridad": 1,
       "fotos_extra": []
     },
@@ -399,7 +395,7 @@
       "product": "Aires acondicionados para camiones",
       "time": "12:08",
       "stand": "Hall 5.1 K64",
-      "comments": "Son dos compañías en una, con presencia tanto en Rusia como en China, lo que les da capacidad de fabricación y distribución en distintos mercados. Se dedican a fabricar sistemas de aire acondicionado para camiones, diseñados específicamente para su uso en parada: cuando el camionero está descansando, puede mantener el aire encendido sin necesidad de tener el motor en marcha, lo cual supone un ahorro de combustible y mayor confort para el conductor.\nEl sistema incorpora una protección automática inteligente que apaga el equipo cuando la batería baja del 30%, evitando así que el camión se quede sin carga suficiente para arrancar. Un detalle técnico bien pensado que evita problemas al usuario final.\nOfrecen la posibilidad de personalizar los productos con nuestra caja y marca, de forma que podríamos comercializarlos directamente bajo el nombre Lizarte sin necesidad de desarrollar producto propio. Podría ser una línea interesante para diversificar el catálogo y entrar en el segmento de vehículo industrial.",
+      "comments": "Son dos compañías en una, con presencia tanto en Rusia como en China, lo que les da capacidad de fabricación y distribución en distintos mercados. Se dedican a fabricar sistemas de aire acondicionado para camiones, diseñados específicamente para su uso en parada: cuando el camionero está descansando, puede mantener el aire encendido sin necesidad de tener el motor en marcha, lo cual supone un ahorro de combustible y mayor confort para el conductor.\nEl sistema incorpora una protección automática inteligente que apaga el equipo cuando la batería baja del 30%, evitando así que el camión se quede sin carga suficiente para arrancar. Un detalle técnico bien pensado que evita problemas al usuario final.\nOfrecen la posibilidad de personalizar los productos con nuestra caja y marca, de forma que podríamos comercializarlos directamente bajo el nombre Lizarte sin necesidad de desarrollar producto propio. Podría ser una línea interesante para diversificar el catálogo y entrar en el segmento de vehículo industrial.\nNota: Durante la feria se veían muchos stands ofreciendo productos similares, lo que indica que hay demanda y potencial de mercado real. Valorar la idea como posible nuevo producto a comercializar.",
       "id": 1764130099961,
       "fotos": [
         "fotos/reunion_yugfrost_foto2.jpg",
@@ -412,7 +408,7 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          "Durante la feria se veían muchos stands ofreciendo productos similares, lo que indica que hay demanda y potencial de mercado real. Valorar la idea como posible nuevo producto a comercializar."
+          "Valorar la idea como posible producto a comercializar. Había muchos stands en la feria ofreciendo productos similares, lo que indica que hay demanda y potencial de mercado. Merece la pena estudiarlo con más detalle."
         ],
         "estado": "pendiente",
         "email": "krum@lizarte.com"
@@ -478,7 +474,7 @@
       "product": "EGR",
       "time": "14:19",
       "stand": "Hall 2.1 A96",
-      "comments": "Proveedor de EGR – El mejor de la feria\nSin duda, la mejor empresa que he visto en la feria para válvulas EGR. Destacan notablemente por tener equipos de verificación expuestos directamente en el stand, lo que demuestra un enfoque serio y profesional en el control de calidad de sus productos. No es habitual ver este nivel de transparencia en los fabricantes.\nAdemás de las válvulas EGR, también disponen de productos relacionados con sistemas AdBlue, lo cual amplía su catálogo hacia el tratamiento de emisiones en vehículos diésel modernos. Podría ser interesante valorar esta línea también.\n\nIdea a valorar: Durante la conversación hemos comentado la posibilidad de adquirir uno de sus equipos de verificación para realizar test internos de calidad en Lizarte. Contar con esta capacidad nos permitiría validar el producto recibido de cualquier proveedor y asegurar el nivel de calidad antes de su comercialización, reduciendo así el riesgo de reclamaciones y mejorando la confianza en el producto final.",
+      "comments": "Sin duda, la mejor empresa que he visto en la feria para válvulas EGR. Destacan notablemente por tener equipos de verificación expuestos directamente en el stand, lo que demuestra un enfoque serio y profesional en el control de calidad de sus productos. No es habitual ver este nivel de transparencia en los fabricantes.\nAdemás de las válvulas EGR, también disponen de productos relacionados con sistemas AdBlue, lo cual amplía su catálogo hacia el tratamiento de emisiones en vehículos diésel modernos. Podría ser interesante valorar esta línea también.\n\nIdea a valorar: Durante la conversación hemos comentado la posibilidad de adquirir uno de sus equipos de verificación para realizar test internos de calidad en Lizarte. Contar con esta capacidad nos permitiría validar el producto recibido de cualquier proveedor y asegurar el nivel de calidad antes de su comercialización, reduciendo así el riesgo de reclamaciones y mejorando la confianza en el producto final.",
       "id": 1764137943163,
       "fotos": [
         "fotos/reunion_winner_autoparts_foto3.jpg",
@@ -492,7 +488,7 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          "Solicitar más información sobre los equipos de verificación (especificaciones, precio, formación necesaria) y catálogo completo de EGR y AdBlue."
+          "Contactar para pedir catálogo de las referencias que tienen de EGR y AdBlue."
         ],
         "estado": "pendiente",
         "email": "krum@lizarte.com"
@@ -534,7 +530,7 @@
       "product": "Correas EPS",
       "time": "09:45",
       "stand": "Hall 3.1 H123",
-      "comments": "Empresa especializada en la fabricación de correas de todo tipo, incluyendo las que necesitamos para nuestras aplicaciones actuales. Además, disponen de versiones más finas que podrían ser útiles para otras referencias donde el espacio o las especificaciones técnicas requieran un perfil más reducido. Esta variedad de gama demuestra capacidad de fabricación flexible.\nHa sido uno de los mejores stands que he visto en toda la feria, tanto por la presentación del producto como por la atención recibida y la profesionalidad mostrada. Da confianza como potencial proveedor.\n\nContacto: Hancy@chiboss.cn",
+      "comments": "Empresa especializada en la fabricación de correas de todo tipo, incluyendo las que necesitamos para nuestras aplicaciones actuales. Además, disponen de versiones más finas que podrían ser útiles para otras referencias donde el espacio o las especificaciones técnicas requieran un perfil más reducido. Esta variedad de gama demuestra capacidad de fabricación flexible.\n\nHa sido uno de los mejores stands que he visto en toda la feria, tanto por la presentación del producto como por la atención recibida y la profesionalidad mostrada. Da confianza como potencial proveedor.\n\nContacto: Hancy@chiboss.cn",
       "id": 1764207955485,
       "fotos": [
         "fotos/reunion_chiboss_foto2.jpg",
@@ -547,7 +543,7 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          "Solicitar referencias disponibles de correas y precios de Encory. Una vez recibida la información, comparar con las condiciones del proveedor actual para valorar si merece la pena realizar un cambio o mantenerlo como segunda opción de suministro."
+          "Pedir referencias de Encory y precios para valorar vs proveedor actual"
         ],
         "estado": "pendiente",
         "email": "jhualde@lizarte.com"
@@ -562,7 +558,7 @@
       "product": "Cardans",
       "time": "10:07",
       "stand": "Hall 1.1 E01",
-      "comments": "Empresa que vende cardanes y que tiene buena pinta a primera vista. Las piezas expuestas en el stand se ven bien acabadas, con un nivel de calidad aparente más que aceptable. Es cierto que lógicamente habrán llevado el mejor producto posible para la feria, pero aun así la impresión general es positiva y merece la pena explorar una posible colaboración.\nUn punto importante es que comentan trabajar con vehículos del parque europeo, lo cual es especialmente relevante para nuestro mercado y nos asegura que sus referencias podrían encajar directamente con las aplicaciones que manejamos. ",
+      "comments": "Empresa que vende cardanes y que tiene buena pinta a primera vista. Las piezas expuestas en el stand se ven bien acabadas, con un nivel de calidad aparente más que aceptable. Es cierto que lógicamente habrán llevado el mejor producto posible para la feria, pero aun así la impresión general es positiva y merece la pena explorar una posible colaboración.\nUn punto importante es que comentan trabajar con vehículos del parque europeo, lo cual es especialmente relevante para nuestro mercado y nos asegura que sus referencias podrían encajar directamente con las aplicaciones que manejamos. No siempre los proveedores chinos tienen cobertura de vehículos europeos, por lo que esto es un valor añadido.\n\nAcción: Pendiente recibir catálogo con las referencias disponibles. Revisar cobertura de vehículos y valorar si encaja con nuestra línea de producto para posibles compras o diversificación de proveedores.",
       "id": 1764209275780,
       "fotos": [
         "fotos/reunion_zfylcd_foto2.jpg",
@@ -575,7 +571,7 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          "Pendiente solicitar catálogo con las referencias disponibles. Revisar cobertura de vehículos y valorar si encaja con nuestra línea de producto para posibles compras o diversificación de proveedores."
+          "Solicitar catálogo con las referencias disponibles. Revisar cobertura de vehículos y valorar si encaja con nuestra línea de producto para posibles compras o diversificación de proveedores."
         ],
         "estado": "pendiente",
         "email": "jbaztan@lizarte.com"
@@ -603,7 +599,7 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          "Solicitar referencias disponibles de correas y precios de Encory. Una vez recibida la información, comparar con las condiciones del proveedor actual para valorar si merece la pena realizar un cambio o mantenerlo como segunda opción de suministro."
+          "Solicitar correas de Encory para comparar calidad y precio con otros proveedores contactados en la feria."
         ],
         "estado": "pendiente",
         "email": "jbaztan@lizarte.com"
@@ -631,7 +627,7 @@
         "proximaAccion": "",
         "fechaSeguimiento": "",
         "acciones": [
-          " Solicitar catálogo completo con todas las referencias disponibles y pedir específicamente el listado de referencias que suministran a Bosch. Estas serán las que mayor garantía de calidad ofrezcan."
+          "Acción: Pedir catálogo completo con todas las referencias y solicitar específicamente el listado de referencias que suministran a Bosch."
         ],
         "estado": "pendiente",
         "email": "krum@lizarte.com"
