@@ -1634,22 +1634,41 @@
             const numReuniones = appData.reuniones.length;
             const numAdicional = appData.adicional.length;
             
+            console.log('🔢 Actualizando contadores de pestañas - Reuniones:', numReuniones, 'Adicional:', numAdicional);
+            
             // Buscar y actualizar el botón de pestaña "Reuniones"
             const tabs = document.querySelectorAll('.tab');
+            let reunionesUpdated = false;
+            let adicionalUpdated = false;
+            
             tabs.forEach(tab => {
-                const text = tab.textContent;
-                // Preservar el onclick al actualizar
+                const text = tab.textContent || '';
                 const onclickAttr = tab.getAttribute('onclick');
-                if (text.includes('Reuniones')) {
+                
+                // Buscar por el onclick que contiene 'reuniones' o 'adicional'
+                const onclickValue = onclickAttr || '';
+                
+                if (onclickValue.includes("switchTab('reuniones')") || text.includes('Reuniones')) {
                     // Reemplazar el número manteniendo el emoji y el texto
                     tab.textContent = `🤝 Reuniones (${numReuniones})`;
                     if (onclickAttr) tab.setAttribute('onclick', onclickAttr);
-                } else if (text.includes('Info Adicional')) {
+                    reunionesUpdated = true;
+                    console.log('✅ Contador Reuniones actualizado a:', numReuniones);
+                } else if (onclickValue.includes("switchTab('adicional')") || text.includes('Info Adicional')) {
                     // Reemplazar el número manteniendo el emoji y el texto
                     tab.textContent = `📋 Info Adicional (${numAdicional})`;
                     if (onclickAttr) tab.setAttribute('onclick', onclickAttr);
+                    adicionalUpdated = true;
+                    console.log('✅ Contador Info Adicional actualizado a:', numAdicional);
                 }
             });
+            
+            if (!reunionesUpdated) {
+                console.warn('⚠️ No se encontró la pestaña de Reuniones para actualizar');
+            }
+            if (!adicionalUpdated) {
+                console.warn('⚠️ No se encontró la pestaña de Info Adicional para actualizar');
+            }
         }
         
         function updateStats() {
@@ -1660,9 +1679,17 @@
             const proceso = allItems.filter(i => i.seguimiento.estado === 'proceso').length;
             const finalizados = allItems.filter(i => i.seguimiento.estado === 'finalizado').length;
             
+            console.log('📊 Calculando estadísticas - Total:', total, 'Reuniones:', appData.reuniones.length, 'Adicional:', appData.adicional.length);
+            
             // Actualizar contadores del dashboard principal
             const statTotalEl = document.getElementById('statTotal');
-            if (statTotalEl) statTotalEl.textContent = total;
+            if (statTotalEl) {
+                statTotalEl.textContent = total;
+                console.log('✅ statTotal actualizado a:', total);
+            } else {
+                console.warn('⚠️ No se encontró el elemento statTotal');
+            }
+            
             const statPendientesEl = document.getElementById('statPendientes');
             if (statPendientesEl) statPendientesEl.textContent = pendientes;
             const statContactadosEl = document.getElementById('statContactados');
