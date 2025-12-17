@@ -3716,7 +3716,7 @@ Sistema de Seguimiento Automechanika`;
                     .replace(/'/g, '&#039;');
             }
 
-            // Función para generar HTML de una empresa
+            // Función para generar HTML de una empresa (TODA la información en una página)
             function generarEmpresaHTML(item, esReunion) {
                 const nombre = esReunion ? item.company : item.empresa;
                 const depto = item.departamento || 'Lizarte';
@@ -3729,78 +3729,106 @@ Sistema de Seguimiento Automechanika`;
         <div class="empresa-nombre">
             ${escapeHtml(nombre)}
             <span class="badge ${deptoClass}">${escapeHtml(depto)}</span>
-        </div>`;
+        </div>
+
+        <div style="margin-top: 20pt;">
+            <h3>Información Básica</h3>`;
 
                 if (esReunion) {
                     empresaHTML += `
-        <div class="info-row"><span class="info-label">Persona de contacto:</span><span class="info-value">${escapeHtml(item.person || 'N/A')}</span></div>
-        <div class="info-row"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.product || 'N/A')}</span></div>
-        <div class="info-row"><span class="info-label">Hora:</span><span class="info-value">${escapeHtml(item.time || 'N/A')}</span></div>`;
+            <div class="info-row"><span class="info-label">Persona de contacto:</span><span class="info-value">${escapeHtml(item.person || 'N/A')}</span></div>
+            <div class="info-row"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.product || 'N/A')}</span></div>
+            <div class="info-row"><span class="info-label">Hora:</span><span class="info-value">${escapeHtml(item.time || 'N/A')}</span></div>`;
                     if (item.stand) {
                         empresaHTML += `
-        <div class="info-row"><span class="info-label">Stand:</span><span class="info-value">${escapeHtml(item.stand)}</span></div>`;
+            <div class="info-row"><span class="info-label">Stand:</span><span class="info-value">${escapeHtml(item.stand)}</span></div>`;
                     }
                     const allFotos = [...(Array.isArray(item.fotos) ? item.fotos : []), ...(item.fotos_extra || [])];
-                    if (allFotos.length > 0) {
-                        empresaHTML += `
-        <div class="info-row"><span class="info-label">Fotos:</span><span class="info-value">${allFotos.length} foto(s)</span></div>`;
-                    }
-                    if (item.comments) {
-                        empresaHTML += `
-        <h3>Notas / Comentarios</h3>
-        <div class="texto-largo">${escapeHtml(item.comments).replace(/\n/g, '<br>')}</div>`;
-                    }
+                    empresaHTML += `
+            <div class="info-row"><span class="info-label">Fotos:</span><span class="info-value">${allFotos.length} foto(s)</span></div>`;
                 } else {
                     empresaHTML += `
-        <div class="info-row"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.producto || 'N/A')}</span></div>
-        <div class="info-row"><span class="info-label">Prioridad:</span><span class="info-value"><span class="badge badge-prioridad-${item.prioridad !== undefined ? item.prioridad : 1}">${getPrioridadTexto(item.prioridad)}</span></span></div>`;
-                    if (item.notas) {
-                        empresaHTML += `
-        <h3>Notas</h3>
-        <div class="texto-largo">${escapeHtml(item.notas).replace(/\n/g, '<br>')}</div>`;
-                    }
+            <div class="info-row"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.producto || 'N/A')}</span></div>
+            <div class="info-row"><span class="info-label">Prioridad:</span><span class="info-value"><span class="badge badge-prioridad-${item.prioridad !== undefined ? item.prioridad : 1}">${getPrioridadTexto(item.prioridad)}</span></span></div>`;
+                }
+
+                empresaHTML += `
+        </div>`;
+
+                // Notas/Comentarios - SIEMPRE mostrar (aunque esté vacío)
+                if (esReunion) {
+                    empresaHTML += `
+        <div style="margin-top: 20pt;">
+            <h3>Notas / Comentarios</h3>
+            <div class="texto-largo">${item.comments ? escapeHtml(item.comments).replace(/\n/g, '<br>') : '<em style="color: #a0aec0;">Sin notas</em>'}</div>
+        </div>`;
+                } else {
+                    empresaHTML += `
+        <div style="margin-top: 20pt;">
+            <h3>Notas</h3>
+            <div class="texto-largo">${item.notas ? escapeHtml(item.notas).replace(/\n/g, '<br>') : '<em style="color: #a0aec0;">Sin notas</em>'}</div>
+        </div>`;
+                    
                     if (item.oportunidad) {
                         empresaHTML += `
-        <h3>Oportunidad de Negocio</h3>
-        <div class="texto-largo">${escapeHtml(item.oportunidad).replace(/\n/g, '<br>')}</div>`;
+        <div style="margin-top: 20pt;">
+            <h3>Oportunidad de Negocio</h3>
+            <div class="texto-largo">${escapeHtml(item.oportunidad).replace(/\n/g, '<br>')}</div>
+        </div>`;
                     }
                 }
 
-                // Sección de seguimiento
+                // Sección de Seguimiento - TODOS los campos SIEMPRE visibles
                 empresaHTML += `
-        <div class="seguimiento-section">
+        <div class="seguimiento-section" style="margin-top: 20pt;">
             <h3>Seguimiento</h3>
             <div class="info-row">
                 <span class="info-label">Estado:</span>
                 <span class="info-value"><span class="badge-estado ${estadoClass}">${(seg.estado || 'pendiente').toUpperCase()}</span></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Responsable:</span>
+                <span class="info-value">${seg.responsable ? escapeHtml(seg.responsable) : '<em style="color: #a0aec0;">Sin asignar</em>'}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value">${seg.email ? escapeHtml(seg.email) : '<em style="color: #a0aec0;">Sin email</em>'}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Fecha seguimiento:</span>
+                <span class="info-value">${seg.fechaSeguimiento ? escapeHtml(seg.fechaSeguimiento) : '<em style="color: #a0aec0;">Sin fecha</em>'}</span>
             </div>`;
                 
-                if (seg.responsable) {
+                if (seg.proximaAccion) {
                     empresaHTML += `
-            <div class="info-row"><span class="info-label">Responsable:</span><span class="info-value">${escapeHtml(seg.responsable)}</span></div>`;
+            <div style="margin-top: 15pt;">
+                <h3 style="font-size: 12pt; margin-bottom: 8pt;">Próxima Acción</h3>
+                <div class="texto-largo">${escapeHtml(seg.proximaAccion).replace(/\n/g, '<br>')}</div>
+            </div>`;
                 }
-                if (seg.email) {
+                
+                empresaHTML += `
+            <div style="margin-top: 15pt;">
+                <h3 style="font-size: 12pt; margin-bottom: 8pt;">Acciones Pendientes</h3>`;
+                
+                if (seg.acciones && seg.acciones.length > 0 && seg.acciones.some(a => a && a.trim())) {
                     empresaHTML += `
-            <div class="info-row"><span class="info-label">Email:</span><span class="info-value">${escapeHtml(seg.email)}</span></div>`;
-                }
-                if (seg.fechaSeguimiento) {
-                    empresaHTML += `
-            <div class="info-row"><span class="info-label">Fecha seguimiento:</span><span class="info-value">${escapeHtml(seg.fechaSeguimiento)}</span></div>`;
-                }
-                if (seg.acciones && seg.acciones.length > 0) {
-                    empresaHTML += `
-            <h3 style="margin-top: 15pt;">Acciones Pendientes</h3>
-            <div class="acciones-list">`;
+                <div class="acciones-list">`;
                     seg.acciones.forEach((accion, i) => {
                         if (accion && accion.trim()) {
                             empresaHTML += `
-                <div class="accion-item">${i + 1}. ${escapeHtml(accion)}</div>`;
+                    <div class="accion-item">${i + 1}. ${escapeHtml(accion)}</div>`;
                         }
                     });
                     empresaHTML += `
-            </div>`;
+                </div>`;
+                } else {
+                    empresaHTML += `
+                <div style="color: #a0aec0; font-style: italic;">No hay acciones registradas</div>`;
                 }
+                
                 empresaHTML += `
+            </div>
         </div>
     </div>`;
 
