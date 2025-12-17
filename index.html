@@ -1784,6 +1784,7 @@
                     departamento: item.departamento || 'Lizarte',
                     prioridad: item.prioridad !== undefined ? item.prioridad : 1,
                     fotos: item.fotos || [],
+                    fotos_extra: item.fotos_extra || [],
                     seguimiento: item.seguimiento || {
                         responsable: "",
                         contactado: false,
@@ -2971,15 +2972,64 @@ Sistema de Seguimiento Automechanika`;
                 console.log('📝 Aplicando textos modificados...');
                 const textosModificados = JSON.parse(localStorage.getItem('textos_modificados_automechanika') || '{}');
                 
+                // Cargar lista de empresas eliminadas ANTES de añadir nuevas
+                const empresasEliminadas = JSON.parse(localStorage.getItem('empresas_eliminadas_automechanika') || '{}');
+                
+                // Función auxiliar para hacer merge inteligente preservando texto original
+                function mergeItemData(original, modificado) {
+                    // Crear una copia del original
+                    const merged = { ...original };
+                    // Lista de campos de texto que pueden tener contenido largo
+                    const camposTexto = ['comments', 'notas', 'oportunidad', 'product', 'producto', 'company', 'empresa', 'person'];
+                    
+                    // Aplicar modificaciones
+                    Object.keys(modificado).forEach(key => {
+                        if (key === 'seguimiento' && typeof modificado[key] === 'object') {
+                            // Merge profundo para seguimiento
+                            merged[key] = { ...original[key], ...modificado[key] };
+                            // Preservar arrays dentro de seguimiento (acciones)
+                            if (modificado[key].acciones && Array.isArray(modificado[key].acciones)) {
+                                merged[key].acciones = modificado[key].acciones;
+                            }
+                        } else if (Array.isArray(modificado[key])) {
+                            // Para arrays, usar el modificado directamente
+                            merged[key] = modificado[key];
+                        } else if (camposTexto.includes(key)) {
+                            // Para campos de texto: preservar original si el modificado está vacío
+                            const valorModificado = modificado[key];
+                            const valorOriginal = original[key];
+                            
+                            // Si el modificado es string vacío pero el original tiene contenido,
+                            // preservar el original (probablemente no fue editado, solo se guardó como '')
+                            if (typeof valorModificado === 'string' && valorModificado === '' && 
+                                typeof valorOriginal === 'string' && valorOriginal !== '') {
+                                merged[key] = valorOriginal;
+                            } else {
+                                // Usar el modificado (tiene contenido o fue explícitamente borrado)
+                                merged[key] = valorModificado;
+                            }
+                        } else {
+                            // Para otros campos, usar el modificado
+                            merged[key] = modificado[key];
+                        }
+                    });
+                    // Preservar campos del original que no están en modificados
+                    Object.keys(original).forEach(key => {
+                        if (modificado[key] === undefined && original[key] !== undefined) {
+                            merged[key] = original[key];
+                        }
+                    });
+                    return merged;
+                }
+                
                 // Actualizar empresas existentes en reuniones
                 datosBase.reuniones.forEach(item => {
                     if (textosModificados[item.id]) {
-                        Object.assign(item, textosModificados[item.id]);
+                        // Hacer merge preservando texto original si el modificado está vacío
+                        const merged = mergeItemData(item, textosModificados[item.id]);
+                        Object.assign(item, merged);
                     }
                 });
-                
-                // Cargar lista de empresas eliminadas ANTES de añadir nuevas
-                const empresasEliminadas = JSON.parse(localStorage.getItem('empresas_eliminadas_automechanika') || '{}');
                 
                 // Añadir NUEVAS empresas en reuniones que no están en datosBase Y no fueron eliminadas
                 Object.keys(textosModificados).forEach(id => {
@@ -3025,22 +3075,28 @@ Sistema de Seguimiento Automechanika`;
                 // Actualizar empresas existentes en adicional
                 datosBase.adicional.forEach(item => {
                     if (textosModificados[item.id]) {
-                        Object.assign(item, textosModificados[item.id]);
+                        // Hacer merge preservando texto original si el modificado está vacío
+                        const merged = mergeItemData(item, textosModificados[item.id]);
+                        Object.assign(item, merged);
                     }
                 });
                 
-                // Aplicar seguimiento
-                console.log('📊 Aplicando seguimiento...');
+                // NO aplicar seguimiento desde seguimiento_v2_automechanika aquí
+                // porque ya está incluido en textosModificados y se aplicó en el merge
+                // Solo aplicar si NO está en textosModificados (casos legacy)
+                console.log('📊 Verificando seguimiento legacy...');
                 const seguimientoData = JSON.parse(localStorage.getItem('seguimiento_v2_automechanika') || '{}');
                 
                 datosBase.reuniones.forEach(item => {
-                    if (seguimientoData[item.id]) {
+                    // Solo aplicar seguimiento legacy si no está en textosModificados
+                    if (seguimientoData[item.id] && !textosModificados[item.id]) {
                         item.seguimiento = seguimientoData[item.id];
                     }
                 });
                 
                 datosBase.adicional.forEach(item => {
-                    if (seguimientoData[item.id]) {
+                    // Solo aplicar seguimiento legacy si no está en textosModificados
+                    if (seguimientoData[item.id] && !textosModificados[item.id]) {
                         item.seguimiento = seguimientoData[item.id];
                     }
                 });
