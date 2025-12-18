@@ -3673,79 +3673,7 @@ Sistema de Seguimiento Automechanika`;
 </head>
 <body>`;
 
-            // Calcular estadísticas del splash screen
-            const allItems = [...appData.reuniones, ...appData.adicional];
-            const totalEmpresas = allItems.length;
-            const numReuniones = appData.reuniones.length;
-            
-            // Contar fotos totales
-            let numFotos = 0;
-            appData.reuniones.forEach(item => {
-                numFotos += (Array.isArray(item.fotos) ? item.fotos.length : 0);
-                numFotos += (Array.isArray(item.fotos_extra) ? item.fotos_extra.length : 0);
-            });
-            appData.adicional.forEach(item => {
-                numFotos += (Array.isArray(item.fotos) ? item.fotos.length : 0);
-                numFotos += (Array.isArray(item.fotos_extra) ? item.fotos_extra.length : 0);
-            });
-            
-            // Contar oportunidades de innovación
-            const numOportunidades = allItems.filter(item => (item.departamento || 'Lizarte') === 'Innovación').length;
-
-            // Primera página: Resumen del splash screen (las 4 estadísticas principales) - PORTRAIT
-            html += `
-    <div style="text-align: center; padding: 80pt 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white;">
-        <h1 style="font-size: 32pt; margin-bottom: 50pt; color: #fff; font-weight: bold; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">${appConfig.titulo}</h1>
-        
-        <div style="display: flex; flex-direction: column; gap: 30pt; max-width: 500pt; margin: 0 auto;">
-            <div style="text-align: left; padding: 25pt; background: rgba(102, 126, 234, 0.2); border-radius: 12pt; border: 2px solid rgba(102, 126, 234, 0.5); backdrop-filter: blur(10px);">
-                <div style="display: flex; align-items: center; gap: 20pt;">
-                    <div style="font-size: 56pt; font-weight: bold; color: #60a5fa; min-width: 100pt;">${totalEmpresas}</div>
-                    <div>
-                        <div style="font-size: 11pt; color: #cbd5e1; margin-bottom: 5pt;">🏢</div>
-                        <div style="font-size: 14pt; font-weight: 600; color: #fff;">EMPRESAS PRIORIZADAS CONTACTADAS</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="text-align: left; padding: 25pt; background: rgba(102, 126, 234, 0.2); border-radius: 12pt; border: 2px solid rgba(102, 126, 234, 0.5); backdrop-filter: blur(10px);">
-                <div style="display: flex; align-items: center; gap: 20pt;">
-                    <div style="font-size: 56pt; font-weight: bold; color: #60a5fa; min-width: 100pt;">${numReuniones}</div>
-                    <div>
-                        <div style="font-size: 11pt; color: #cbd5e1; margin-bottom: 5pt;">🤝</div>
-                        <div style="font-size: 14pt; font-weight: 600; color: #fff;">REUNIONES ESTRATÉGICAS</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="text-align: left; padding: 25pt; background: rgba(102, 126, 234, 0.2); border-radius: 12pt; border: 2px solid rgba(102, 126, 234, 0.5); backdrop-filter: blur(10px);">
-                <div style="display: flex; align-items: center; gap: 20pt;">
-                    <div style="font-size: 56pt; font-weight: bold; color: #60a5fa; min-width: 100pt;">${numFotos}</div>
-                    <div>
-                        <div style="font-size: 11pt; color: #cbd5e1; margin-bottom: 5pt;">📷</div>
-                        <div style="font-size: 14pt; font-weight: 600; color: #fff;">REGISTROS VISUALES</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="text-align: left; padding: 25pt; background: rgba(102, 126, 234, 0.2); border-radius: 12pt; border: 2px solid rgba(102, 126, 234, 0.5); backdrop-filter: blur(10px);">
-                <div style="display: flex; align-items: center; gap: 20pt;">
-                    <div style="font-size: 56pt; font-weight: bold; color: #60a5fa; min-width: 100pt;">${numOportunidades}</div>
-                    <div>
-                        <div style="font-size: 11pt; color: #cbd5e1; margin-bottom: 5pt;">⭐</div>
-                        <div style="font-size: 14pt; font-weight: 600; color: #fff;">OPORTUNIDADES INNOVACIÓN</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div style="margin-top: 80pt;">
-            <div style="font-size: 36pt; font-weight: bold; background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15pt;">MISIÓN COMPLETADA</div>
-            <div style="font-size: 32pt; font-weight: bold; background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10pt;">KRUM KOVACHEV</div>
-            <div style="font-size: 16pt; color: #cbd5e1; margin-bottom: 5pt;">AUTOMECHANIKA SHANGHAI 2025</div>
-            <div style="font-size: 14pt; color: #94a3b8;">19 Nov - 6 Dic</div>
-        </div>
-    </div>`;
+            // NO incluir página de resumen - empezar directamente con las empresas
 
             // Función auxiliar para escapar HTML
             function escapeHtml(text) {
@@ -3767,148 +3695,123 @@ Sistema de Seguimiento Automechanika`;
                 const estadoClass = `estado-${seg.estado || 'pendiente'}`;
                 
                 let empresaHTML = `
-    <!--[if gte mso 9]>
-    <xml>
-        <w:WordDocument>
-            <w:View>Print</w:View>
-            <w:Zoom>100</w:Zoom>
-        </w:WordDocument>
-    </xml>
-    <![endif]-->
-    <div class="empresa-page" style="width: 29.7cm; height: 21cm; margin: 0; padding: 1.5cm; page-break-before: always;">
-        <table style="width: 100%; height: 100%; border-collapse: collapse; table-layout: fixed;">
-            <tr style="height: 100%;">
-                <!-- Columna Izquierda -->
-                <td style="width: 50%; vertical-align: top; padding-right: 15pt; height: 100%;">
-                    <table style="width: 100%; height: 100%; border-collapse: collapse;">
-                        <tr>
-                            <td style="vertical-align: top;">
-                                <div class="empresa-nombre" style="margin-bottom: 15pt;">
-                                    ${escapeHtml(nombre)}
-                                    <span class="badge ${deptoClass}">${escapeHtml(depto)}</span>
-                                </div>
+    <div class="empresa-page" style="width: 29.7cm; height: 21cm; margin: 0; padding: 1.5cm;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <!-- Fila 1: Nombre + Información Básica (izquierda) y Seguimiento (derecha) -->
+            <tr>
+                <!-- Columna Izquierda: Nombre e Información Básica -->
+                <td style="width: 50%; vertical-align: top; padding-right: 15pt;">
+                    <div class="empresa-nombre" style="margin-bottom: 15pt;">
+                        ${escapeHtml(nombre)}
+                        <span class="badge ${deptoClass}">${escapeHtml(depto)}</span>
+                    </div>
 
-                                <div style="margin-bottom: 15pt;">
-                                    <h3 style="font-size: 12pt; margin-bottom: 8pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Información Básica</h3>`;
+                    <div>
+                        <h3 style="font-size: 12pt; margin-bottom: 8pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Información Básica</h3>`;
 
                 if (esReunion) {
                     empresaHTML += `
-                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Persona de contacto:</span><span class="info-value">${escapeHtml(item.person || 'N/A')}</span></div>
-                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.product || 'N/A')}</span></div>
-                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Hora:</span><span class="info-value">${escapeHtml(item.time || 'N/A')}</span></div>`;
-                    if (item.stand) {
-                        empresaHTML += `
-                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Stand:</span><span class="info-value">${escapeHtml(item.stand)}</span></div>`;
-                    }
+                        <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Persona de contacto:</span><span class="info-value">${escapeHtml(item.person || 'N/A')}</span></div>
+                        <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.product || 'N/A')}</span></div>`;
                     const allFotos = [...(Array.isArray(item.fotos) ? item.fotos : []), ...(item.fotos_extra || [])];
                     empresaHTML += `
-                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Fotos:</span><span class="info-value">${allFotos.length} foto(s)</span></div>`;
+                        <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Fotos:</span><span class="info-value">${allFotos.length} foto(s)</span></div>`;
                 } else {
                     empresaHTML += `
-                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.producto || 'N/A')}</span></div>
-                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Prioridad:</span><span class="info-value"><span class="badge badge-prioridad-${item.prioridad !== undefined ? item.prioridad : 1}">${getPrioridadTexto(item.prioridad)}</span></span></div>`;
+                        <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.producto || 'N/A')}</span></div>
+                        <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Prioridad:</span><span class="info-value"><span class="badge badge-prioridad-${item.prioridad !== undefined ? item.prioridad : 1}">${getPrioridadTexto(item.prioridad)}</span></span></div>`;
                 }
 
                 empresaHTML += `
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="vertical-align: top; height: 100%;">`;
-
-                // Notas/Comentarios - Ocupar todo el espacio restante
-                if (esReunion) {
-                    empresaHTML += `
-                                <div style="height: 100%; display: flex; flex-direction: column;">
-                                    <h3 style="font-size: 12pt; margin-bottom: 8pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Notas / Comentarios</h3>
-                                    <div class="texto-largo" style="flex: 1; overflow: visible; padding: 10pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word;">${item.comments ? escapeHtml(item.comments).replace(/\n/g, '<br>') : '<em style="color: #a0aec0;">Sin notas</em>'}</div>
-                                </div>`;
-                } else {
-                    empresaHTML += `
-                                <div style="height: 100%; display: flex; flex-direction: column;">
-                                    <h3 style="font-size: 12pt; margin-bottom: 8pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Notas</h3>
-                                    <div class="texto-largo" style="flex: 1; overflow: visible; padding: 10pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word; margin-bottom: 10pt;">${item.notas ? escapeHtml(item.notas).replace(/\n/g, '<br>') : '<em style="color: #a0aec0;">Sin notas</em>'}</div>`;
-                    
-                    if (item.oportunidad) {
-                        empresaHTML += `
-                                    <h3 style="font-size: 12pt; margin-bottom: 8pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Oportunidad de Negocio</h3>
-                                    <div class="texto-largo" style="flex: 1; overflow: visible; padding: 10pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word;">${escapeHtml(item.oportunidad).replace(/\n/g, '<br>')}</div>`;
-                    }
-                    empresaHTML += `
-                                </div>`;
-                }
-                
-                empresaHTML += `
-                            </td>
-                        </tr>
-                    </table>
+                    </div>
                 </td>
 
                 <!-- Columna Derecha: Seguimiento -->
-                <td style="width: 50%; vertical-align: top; padding-left: 15pt; height: 100%;">
-                    <table style="width: 100%; height: 100%; border-collapse: collapse;">
-                        <tr>
-                            <td style="vertical-align: top;">
-                                <div class="seguimiento-section" style="padding: 15pt; background-color: #f7fafc; border-left: 4px solid #667eea;">
-                                    <h3 style="font-size: 12pt; margin-bottom: 12pt; color: #4a5568; border-bottom: 2px solid #667eea; padding-bottom: 3pt;">Seguimiento</h3>
-                                    
-                                    <div style="margin-bottom: 12pt;">
-                                        <div class="info-row" style="margin: 5pt 0;">
-                                            <span class="info-label">Estado:</span>
-                                            <span class="info-value"><span class="badge-estado ${estadoClass}">${(seg.estado || 'pendiente').toUpperCase()}</span></span>
-                                        </div>
-                                        <div class="info-row" style="margin: 5pt 0;">
-                                            <span class="info-label">Responsable:</span>
-                                            <span class="info-value">${seg.responsable ? escapeHtml(seg.responsable) : '<em style="color: #a0aec0;">Sin asignar</em>'}</span>
-                                        </div>
-                                        <div class="info-row" style="margin: 5pt 0;">
-                                            <span class="info-label">Email:</span>
-                                            <span class="info-value">${seg.email ? escapeHtml(seg.email) : '<em style="color: #a0aec0;">Sin email</em>'}</span>
-                                        </div>
-                                        <div class="info-row" style="margin: 5pt 0;">
-                                            <span class="info-label">Fecha seguimiento:</span>
-                                            <span class="info-value">${seg.fechaSeguimiento ? escapeHtml(seg.fechaSeguimiento) : '<em style="color: #a0aec0;">Sin fecha</em>'}</span>
-                                        </div>
-                                    </div>`;
+                <td style="width: 50%; vertical-align: top; padding-left: 15pt;">
+                    <div class="seguimiento-section" style="padding: 15pt; background-color: #f7fafc; border-left: 4px solid #667eea;">
+                        <h3 style="font-size: 12pt; margin-bottom: 12pt; color: #4a5568; border-bottom: 2px solid #667eea; padding-bottom: 3pt;">Seguimiento</h3>
+                        
+                        <div>
+                            <div class="info-row" style="margin: 5pt 0;">
+                                <span class="info-label">Estado:</span>
+                                <span class="info-value"><span class="badge-estado ${estadoClass}">${(seg.estado || 'pendiente').toUpperCase()}</span></span>
+                            </div>
+                            <div class="info-row" style="margin: 5pt 0;">
+                                <span class="info-label">Responsable:</span>
+                                <span class="info-value">${seg.responsable ? escapeHtml(seg.responsable) : '<em style="color: #a0aec0;">Sin asignar</em>'}</span>
+                            </div>
+                            <div class="info-row" style="margin: 5pt 0;">
+                                <span class="info-label">Email:</span>
+                                <span class="info-value">${seg.email ? escapeHtml(seg.email) : '<em style="color: #a0aec0;">Sin email</em>'}</span>
+                            </div>
+                            <div class="info-row" style="margin: 5pt 0;">
+                                <span class="info-label">Fecha seguimiento:</span>
+                                <span class="info-value">${seg.fechaSeguimiento ? escapeHtml(seg.fechaSeguimiento) : '<em style="color: #a0aec0;">Sin fecha</em>'}</span>
+                            </div>
+                        </div>`;
                 
                 if (seg.proximaAccion) {
                     empresaHTML += `
-                                    <div style="margin-bottom: 12pt;">
-                                        <h3 style="font-size: 11pt; margin-bottom: 5pt; color: #718096;">Próxima Acción</h3>
-                                        <div class="texto-largo" style="font-size: 10pt; padding: 8pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word;">${escapeHtml(seg.proximaAccion).replace(/\n/g, '<br>')}</div>
-                                    </div>`;
+                        <div style="margin-top: 12pt;">
+                            <h3 style="font-size: 11pt; margin-bottom: 5pt; color: #718096;">Próxima Acción</h3>
+                            <div class="texto-largo" style="font-size: 10pt; padding: 8pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word;">${escapeHtml(seg.proximaAccion).replace(/\n/g, '<br>')}</div>
+                        </div>`;
                 }
                 
                 empresaHTML += `
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="vertical-align: top; height: 100%;">
-                                <div style="height: 100%; display: flex; flex-direction: column; padding: 15pt; background-color: #f7fafc; border-left: 4px solid #667eea;">
-                                    <h3 style="font-size: 12pt; margin-bottom: 10pt; color: #4a5568; border-bottom: 2px solid #667eea; padding-bottom: 3pt;">Acciones Pendientes</h3>`;
+                    </div>
+                </td>
+            </tr>
+
+            <!-- Fila 2: Notas/Comentarios (ancho completo) -->
+            <tr>
+                <td colspan="2" style="vertical-align: top; padding-top: 20pt;">`;
+
+                // Notas/Comentarios - Ancho completo
+                if (esReunion) {
+                    empresaHTML += `
+                    <h3 style="font-size: 12pt; margin-bottom: 10pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Notas / Comentarios</h3>
+                    <div class="texto-largo" style="padding: 15pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word; min-height: 200pt;">${item.comments ? escapeHtml(item.comments).replace(/\n/g, '<br>') : '<em style="color: #a0aec0;">Sin notas</em>'}</div>`;
+                } else {
+                    empresaHTML += `
+                    <h3 style="font-size: 12pt; margin-bottom: 10pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Notas</h3>
+                    <div class="texto-largo" style="padding: 15pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word; min-height: 150pt; margin-bottom: 15pt;">${item.notas ? escapeHtml(item.notas).replace(/\n/g, '<br>') : '<em style="color: #a0aec0;">Sin notas</em>'}</div>`;
+                    
+                    if (item.oportunidad) {
+                        empresaHTML += `
+                    <h3 style="font-size: 12pt; margin-bottom: 10pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Oportunidad de Negocio</h3>
+                    <div class="texto-largo" style="padding: 15pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word; min-height: 150pt;">${escapeHtml(item.oportunidad).replace(/\n/g, '<br>')}</div>`;
+                    }
+                }
+                
+                empresaHTML += `
+                </td>
+            </tr>
+
+            <!-- Fila 3: Acciones Pendientes (ancho completo, abajo) -->
+            <tr>
+                <td colspan="2" style="vertical-align: top; padding-top: 20pt;">
+                    <div style="padding: 15pt; background-color: #f7fafc; border-left: 4px solid #667eea;">
+                        <h3 style="font-size: 12pt; margin-bottom: 10pt; color: #4a5568; border-bottom: 2px solid #667eea; padding-bottom: 3pt;">Acciones Pendientes</h3>`;
                 
                 if (seg.acciones && seg.acciones.length > 0 && seg.acciones.some(a => a && a.trim())) {
                     empresaHTML += `
-                                    <div class="acciones-list" style="flex: 1; overflow: visible;">`;
+                        <div class="acciones-list">`;
                     seg.acciones.forEach((accion, i) => {
                         if (accion && accion.trim()) {
                             empresaHTML += `
-                                        <div class="accion-item" style="margin-bottom: 10pt; padding: 8pt; background: #ffffff; border-left: 3px solid #667eea; white-space: pre-wrap; word-wrap: break-word;">${i + 1}. ${escapeHtml(accion)}</div>`;
+                            <div class="accion-item" style="margin-bottom: 10pt; padding: 10pt; background: #ffffff; border-left: 3px solid #667eea; white-space: pre-wrap; word-wrap: break-word;">${i + 1}. ${escapeHtml(accion)}</div>`;
                         }
                     });
                     empresaHTML += `
-                                    </div>`;
+                        </div>`;
                 } else {
                     empresaHTML += `
-                                    <div style="color: #a0aec0; font-style: italic; padding: 10pt;">No hay acciones registradas</div>`;
+                        <div style="color: #a0aec0; font-style: italic; padding: 10pt;">No hay acciones registradas</div>`;
                 }
                 
                 empresaHTML += `
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -3917,21 +3820,13 @@ Sistema de Seguimiento Automechanika`;
                 return empresaHTML;
             }
 
-            // REUNIONES - cada empresa en página nueva (empezando desde la segunda página)
-            appData.reuniones.sort((a, b) => {
-                const timeA = a.time || '';
-                const timeB = b.time || '';
-                return timeA.localeCompare(timeB);
-            }).forEach((item, index) => {
-                // Cada empresa empieza en página nueva con orientación horizontal
-                html += `<!--[if gte mso 9]><br clear=all style='mso-special-character:line-break; page-break-before:always'><![endif]-->`;
+            // REUNIONES - cada empresa en página nueva (orden del JSON/HTML, sin ordenar por hora)
+            appData.reuniones.forEach((item, index) => {
                 html += generarEmpresaHTML(item, true);
             });
 
             // INFO ADICIONAL - cada empresa en página nueva (después de todas las reuniones)
             appData.adicional.forEach(item => {
-                // Cada empresa empieza en página nueva con orientación horizontal
-                html += `<!--[if gte mso 9]><br clear=all style='mso-special-character:line-break; page-break-before:always'><![endif]-->`;
                 html += generarEmpresaHTML(item, false);
             });
 
