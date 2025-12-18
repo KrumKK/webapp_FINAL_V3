@@ -3767,120 +3767,148 @@ Sistema de Seguimiento Automechanika`;
                 const estadoClass = `estado-${seg.estado || 'pendiente'}`;
                 
                 let empresaHTML = `
-    <div class="empresa-page" style="width: 29.7cm; min-height: 21cm; margin: 0; padding: 1.5cm; page-break-before: always;">
-        <table style="width: 100%; height: 100%; border-collapse: collapse;">
-            <tr>
+    <!--[if gte mso 9]>
+    <xml>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>100</w:Zoom>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <div class="empresa-page" style="width: 29.7cm; height: 21cm; margin: 0; padding: 1.5cm; page-break-before: always;">
+        <table style="width: 100%; height: 100%; border-collapse: collapse; table-layout: fixed;">
+            <tr style="height: 100%;">
                 <!-- Columna Izquierda -->
-                <td style="width: 50%; vertical-align: top; padding-right: 15pt;">
-                    <div class="empresa-nombre" style="margin-bottom: 20pt;">
-                        ${escapeHtml(nombre)}
-                        <span class="badge ${deptoClass}">${escapeHtml(depto)}</span>
-                    </div>
+                <td style="width: 50%; vertical-align: top; padding-right: 15pt; height: 100%;">
+                    <table style="width: 100%; height: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="vertical-align: top;">
+                                <div class="empresa-nombre" style="margin-bottom: 15pt;">
+                                    ${escapeHtml(nombre)}
+                                    <span class="badge ${deptoClass}">${escapeHtml(depto)}</span>
+                                </div>
 
-                    <div style="margin-bottom: 20pt;">
-                        <h3 style="font-size: 13pt; margin-bottom: 10pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 5pt;">Información Básica</h3>`;
+                                <div style="margin-bottom: 15pt;">
+                                    <h3 style="font-size: 12pt; margin-bottom: 8pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Información Básica</h3>`;
 
                 if (esReunion) {
                     empresaHTML += `
-                        <div class="info-row"><span class="info-label">Persona de contacto:</span><span class="info-value">${escapeHtml(item.person || 'N/A')}</span></div>
-                        <div class="info-row"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.product || 'N/A')}</span></div>
-                        <div class="info-row"><span class="info-label">Hora:</span><span class="info-value">${escapeHtml(item.time || 'N/A')}</span></div>`;
+                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Persona de contacto:</span><span class="info-value">${escapeHtml(item.person || 'N/A')}</span></div>
+                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.product || 'N/A')}</span></div>
+                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Hora:</span><span class="info-value">${escapeHtml(item.time || 'N/A')}</span></div>`;
                     if (item.stand) {
                         empresaHTML += `
-                        <div class="info-row"><span class="info-label">Stand:</span><span class="info-value">${escapeHtml(item.stand)}</span></div>`;
+                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Stand:</span><span class="info-value">${escapeHtml(item.stand)}</span></div>`;
                     }
                     const allFotos = [...(Array.isArray(item.fotos) ? item.fotos : []), ...(item.fotos_extra || [])];
                     empresaHTML += `
-                        <div class="info-row"><span class="info-label">Fotos:</span><span class="info-value">${allFotos.length} foto(s)</span></div>`;
+                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Fotos:</span><span class="info-value">${allFotos.length} foto(s)</span></div>`;
                 } else {
                     empresaHTML += `
-                        <div class="info-row"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.producto || 'N/A')}</span></div>
-                        <div class="info-row"><span class="info-label">Prioridad:</span><span class="info-value"><span class="badge badge-prioridad-${item.prioridad !== undefined ? item.prioridad : 1}">${getPrioridadTexto(item.prioridad)}</span></span></div>`;
+                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Producto/Servicio:</span><span class="info-value">${escapeHtml(item.producto || 'N/A')}</span></div>
+                                    <div class="info-row" style="margin: 5pt 0;"><span class="info-label">Prioridad:</span><span class="info-value"><span class="badge badge-prioridad-${item.prioridad !== undefined ? item.prioridad : 1}">${getPrioridadTexto(item.prioridad)}</span></span></div>`;
                 }
 
                 empresaHTML += `
-                    </div>`;
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top; height: 100%;">`;
 
-                // Notas/Comentarios - SIEMPRE mostrar
+                // Notas/Comentarios - Ocupar todo el espacio restante
                 if (esReunion) {
                     empresaHTML += `
-                    <div style="margin-top: 20pt;">
-                        <h3 style="font-size: 13pt; margin-bottom: 10pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 5pt;">Notas / Comentarios</h3>
-                        <div class="texto-largo" style="max-height: 400pt; overflow-y: auto;">${item.comments ? escapeHtml(item.comments).replace(/\n/g, '<br>') : '<em style="color: #a0aec0;">Sin notas</em>'}</div>
-                    </div>`;
+                                <div style="height: 100%; display: flex; flex-direction: column;">
+                                    <h3 style="font-size: 12pt; margin-bottom: 8pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Notas / Comentarios</h3>
+                                    <div class="texto-largo" style="flex: 1; overflow: visible; padding: 10pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word;">${item.comments ? escapeHtml(item.comments).replace(/\n/g, '<br>') : '<em style="color: #a0aec0;">Sin notas</em>'}</div>
+                                </div>`;
                 } else {
                     empresaHTML += `
-                    <div style="margin-top: 20pt;">
-                        <h3 style="font-size: 13pt; margin-bottom: 10pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 5pt;">Notas</h3>
-                        <div class="texto-largo" style="max-height: 200pt; overflow-y: auto; margin-bottom: 15pt;">${item.notas ? escapeHtml(item.notas).replace(/\n/g, '<br>') : '<em style="color: #a0aec0;">Sin notas</em>'}</div>`;
+                                <div style="height: 100%; display: flex; flex-direction: column;">
+                                    <h3 style="font-size: 12pt; margin-bottom: 8pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Notas</h3>
+                                    <div class="texto-largo" style="flex: 1; overflow: visible; padding: 10pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word; margin-bottom: 10pt;">${item.notas ? escapeHtml(item.notas).replace(/\n/g, '<br>') : '<em style="color: #a0aec0;">Sin notas</em>'}</div>`;
                     
                     if (item.oportunidad) {
                         empresaHTML += `
-                        <h3 style="font-size: 13pt; margin-bottom: 10pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 5pt;">Oportunidad de Negocio</h3>
-                        <div class="texto-largo" style="max-height: 200pt; overflow-y: auto;">${escapeHtml(item.oportunidad).replace(/\n/g, '<br>')}</div>`;
+                                    <h3 style="font-size: 12pt; margin-bottom: 8pt; color: #4a5568; border-bottom: 2px solid #e2e8f0; padding-bottom: 3pt;">Oportunidad de Negocio</h3>
+                                    <div class="texto-largo" style="flex: 1; overflow: visible; padding: 10pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word;">${escapeHtml(item.oportunidad).replace(/\n/g, '<br>')}</div>`;
                     }
                     empresaHTML += `
-                    </div>`;
+                                </div>`;
                 }
                 
                 empresaHTML += `
+                            </td>
+                        </tr>
+                    </table>
                 </td>
 
                 <!-- Columna Derecha: Seguimiento -->
-                <td style="width: 50%; vertical-align: top; padding-left: 15pt;">
-                    <div class="seguimiento-section" style="height: 100%;">
-                        <h3 style="font-size: 13pt; margin-bottom: 15pt; color: #4a5568; border-bottom: 2px solid #667eea; padding-bottom: 5pt;">Seguimiento</h3>
-                        
-                        <div style="margin-bottom: 15pt;">
-                            <div class="info-row">
-                                <span class="info-label">Estado:</span>
-                                <span class="info-value"><span class="badge-estado ${estadoClass}">${(seg.estado || 'pendiente').toUpperCase()}</span></span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">Responsable:</span>
-                                <span class="info-value">${seg.responsable ? escapeHtml(seg.responsable) : '<em style="color: #a0aec0;">Sin asignar</em>'}</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">Email:</span>
-                                <span class="info-value">${seg.email ? escapeHtml(seg.email) : '<em style="color: #a0aec0;">Sin email</em>'}</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">Fecha seguimiento:</span>
-                                <span class="info-value">${seg.fechaSeguimiento ? escapeHtml(seg.fechaSeguimiento) : '<em style="color: #a0aec0;">Sin fecha</em>'}</span>
-                            </div>
-                        </div>`;
+                <td style="width: 50%; vertical-align: top; padding-left: 15pt; height: 100%;">
+                    <table style="width: 100%; height: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="vertical-align: top;">
+                                <div class="seguimiento-section" style="padding: 15pt; background-color: #f7fafc; border-left: 4px solid #667eea;">
+                                    <h3 style="font-size: 12pt; margin-bottom: 12pt; color: #4a5568; border-bottom: 2px solid #667eea; padding-bottom: 3pt;">Seguimiento</h3>
+                                    
+                                    <div style="margin-bottom: 12pt;">
+                                        <div class="info-row" style="margin: 5pt 0;">
+                                            <span class="info-label">Estado:</span>
+                                            <span class="info-value"><span class="badge-estado ${estadoClass}">${(seg.estado || 'pendiente').toUpperCase()}</span></span>
+                                        </div>
+                                        <div class="info-row" style="margin: 5pt 0;">
+                                            <span class="info-label">Responsable:</span>
+                                            <span class="info-value">${seg.responsable ? escapeHtml(seg.responsable) : '<em style="color: #a0aec0;">Sin asignar</em>'}</span>
+                                        </div>
+                                        <div class="info-row" style="margin: 5pt 0;">
+                                            <span class="info-label">Email:</span>
+                                            <span class="info-value">${seg.email ? escapeHtml(seg.email) : '<em style="color: #a0aec0;">Sin email</em>'}</span>
+                                        </div>
+                                        <div class="info-row" style="margin: 5pt 0;">
+                                            <span class="info-label">Fecha seguimiento:</span>
+                                            <span class="info-value">${seg.fechaSeguimiento ? escapeHtml(seg.fechaSeguimiento) : '<em style="color: #a0aec0;">Sin fecha</em>'}</span>
+                                        </div>
+                                    </div>`;
                 
                 if (seg.proximaAccion) {
                     empresaHTML += `
-                        <div style="margin-bottom: 15pt;">
-                            <h3 style="font-size: 11pt; margin-bottom: 8pt; color: #718096;">Próxima Acción</h3>
-                            <div class="texto-largo" style="font-size: 10pt; padding: 8pt; max-height: 100pt; overflow-y: auto;">${escapeHtml(seg.proximaAccion).replace(/\n/g, '<br>')}</div>
-                        </div>`;
+                                    <div style="margin-bottom: 12pt;">
+                                        <h3 style="font-size: 11pt; margin-bottom: 5pt; color: #718096;">Próxima Acción</h3>
+                                        <div class="texto-largo" style="font-size: 10pt; padding: 8pt; background: #ffffff; border: 1px solid #e2e8f0; white-space: pre-wrap; word-wrap: break-word;">${escapeHtml(seg.proximaAccion).replace(/\n/g, '<br>')}</div>
+                                    </div>`;
                 }
                 
                 empresaHTML += `
-                        <div style="margin-top: 15pt;">
-                            <h3 style="font-size: 11pt; margin-bottom: 8pt; color: #718096;">Acciones Pendientes</h3>`;
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top; height: 100%;">
+                                <div style="height: 100%; display: flex; flex-direction: column; padding: 15pt; background-color: #f7fafc; border-left: 4px solid #667eea;">
+                                    <h3 style="font-size: 12pt; margin-bottom: 10pt; color: #4a5568; border-bottom: 2px solid #667eea; padding-bottom: 3pt;">Acciones Pendientes</h3>`;
                 
                 if (seg.acciones && seg.acciones.length > 0 && seg.acciones.some(a => a && a.trim())) {
                     empresaHTML += `
-                            <div class="acciones-list" style="max-height: 300pt; overflow-y: auto;">`;
+                                    <div class="acciones-list" style="flex: 1; overflow: visible;">`;
                     seg.acciones.forEach((accion, i) => {
                         if (accion && accion.trim()) {
                             empresaHTML += `
-                                <div class="accion-item" style="margin-bottom: 8pt; padding: 5pt; background: #f7fafc; border-left: 3px solid #667eea;">${i + 1}. ${escapeHtml(accion)}</div>`;
+                                        <div class="accion-item" style="margin-bottom: 10pt; padding: 8pt; background: #ffffff; border-left: 3px solid #667eea; white-space: pre-wrap; word-wrap: break-word;">${i + 1}. ${escapeHtml(accion)}</div>`;
                         }
                     });
                     empresaHTML += `
-                            </div>`;
+                                    </div>`;
                 } else {
                     empresaHTML += `
-                            <div style="color: #a0aec0; font-style: italic; padding: 10pt;">No hay acciones registradas</div>`;
+                                    <div style="color: #a0aec0; font-style: italic; padding: 10pt;">No hay acciones registradas</div>`;
                 }
                 
                 empresaHTML += `
-                        </div>
-                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </table>
