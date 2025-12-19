@@ -1161,6 +1161,8 @@
         <button class="tab active" onclick="switchTab('guia')">📖 Guía</button>
         <button class="tab" onclick="switchTab('reuniones')">🤝 Reuniones (25)</button>
         <button class="tab" onclick="switchTab('adicional')">📋 Info Adicional (11)</button>
+        <button class="tab" onclick="switchTab('nuevosCoches')">🚗 Nuevos Coches (0)</button>
+        <button class="tab" onclick="switchTab('ahorros')">💰 Ahorros Conseguidos (0)</button>
         <button class="tab" onclick="switchTab('config')">⚙️ Configuración</button>
     </div>
     
@@ -1375,6 +1377,24 @@
         <div id="adicionalContainer" class="items-container"></div>
     </div>
     
+    <div id="nuevosCochesSection" class="content-section">
+        <div style="text-align: right; margin: 15px 0;">
+            <button onclick="showAddNuevoCocheModal()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); font-size: 14px;">
+                ➕ Añadir Nuevo Coche
+            </button>
+        </div>
+        <div id="nuevosCochesContainer" class="items-container"></div>
+    </div>
+    
+    <div id="ahorrosSection" class="content-section">
+        <div style="text-align: right; margin: 15px 0;">
+            <button onclick="showAddAhorroModal()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); font-size: 14px;">
+                ➕ Añadir Ahorro
+            </button>
+        </div>
+        <div id="ahorrosContainer" class="items-container"></div>
+    </div>
+    
     <div id="configSection" class="content-section">
         <div class="config-section">
             <div class="config-title">⚙️ Configuración General</div>
@@ -1433,6 +1453,10 @@
             
             console.log('📥 JSON cargado - Reuniones:', appData.reuniones.length, 'Adicional:', appData.adicional.length);
             console.log('📋 Total empresas en JSON:', appData.reuniones.length + appData.adicional.length);
+            
+            // Inicializar nuevos arrays si no existen
+            if (!appData.nuevosCoches) appData.nuevosCoches = [];
+            if (!appData.ahorros) appData.ahorros = [];
             
             // Inicializar campos si no existen en el JSON
             appData.reuniones.forEach(item => {
@@ -1572,6 +1596,19 @@
             console.log('✅ Datos procesados - Reuniones:', appData.reuniones.length, 'Adicional:', appData.adicional.length);
             console.log('📋 Total empresas después de aplicar modificaciones:', appData.reuniones.length + appData.adicional.length);
             
+            // Cargar nuevos coches y ahorros desde localStorage
+            const nuevosCochesData = localStorage.getItem('nuevos_coches_automechanika');
+            if (nuevosCochesData) {
+                appData.nuevosCoches = JSON.parse(nuevosCochesData);
+                console.log('🚗 Nuevos coches cargados desde localStorage:', appData.nuevosCoches.length);
+            }
+            
+            const ahorrosData = localStorage.getItem('ahorros_automechanika');
+            if (ahorrosData) {
+                appData.ahorros = JSON.parse(ahorrosData);
+                console.log('💰 Ahorros cargados desde localStorage:', appData.ahorros.length);
+            }
+            
             populateResponsableFilter();
             renderAll();
             updateStats();
@@ -1579,7 +1616,7 @@
         }
         
         function convertAirtableToAppData(records) {
-            appData = { reuniones: [], adicional: [] };
+            appData = { reuniones: [], adicional: [], nuevosCoches: [], ahorros: [] };
             
             records.forEach(record => {
                 const fields = record.fields;
@@ -1880,13 +1917,17 @@
             // Actualizar contadores en las pestañas
             const numReuniones = appData.reuniones.length;
             const numAdicional = appData.adicional.length;
+            const numNuevosCoches = (appData.nuevosCoches || []).length;
+            const numAhorros = (appData.ahorros || []).length;
             
-            console.log('🔢 Actualizando contadores de pestañas - Reuniones:', numReuniones, 'Adicional:', numAdicional);
+            console.log('🔢 Actualizando contadores de pestañas - Reuniones:', numReuniones, 'Adicional:', numAdicional, 'Nuevos Coches:', numNuevosCoches, 'Ahorros:', numAhorros);
             
             // Buscar y actualizar el botón de pestaña "Reuniones"
             const tabs = document.querySelectorAll('.tab');
             let reunionesUpdated = false;
             let adicionalUpdated = false;
+            let nuevosCochesUpdated = false;
+            let ahorrosUpdated = false;
             
             tabs.forEach(tab => {
                 const text = tab.textContent || '';
@@ -1907,6 +1948,16 @@
                     if (onclickAttr) tab.setAttribute('onclick', onclickAttr);
                     adicionalUpdated = true;
                     console.log('✅ Contador Info Adicional actualizado a:', numAdicional);
+                } else if (onclickValue.includes("switchTab('nuevosCoches')") || text.includes('Nuevos Coches')) {
+                    tab.textContent = `🚗 Nuevos Coches (${numNuevosCoches})`;
+                    if (onclickAttr) tab.setAttribute('onclick', onclickAttr);
+                    nuevosCochesUpdated = true;
+                    console.log('✅ Contador Nuevos Coches actualizado a:', numNuevosCoches);
+                } else if (onclickValue.includes("switchTab('ahorros')") || text.includes('Ahorros Conseguidos')) {
+                    tab.textContent = `💰 Ahorros Conseguidos (${numAhorros})`;
+                    if (onclickAttr) tab.setAttribute('onclick', onclickAttr);
+                    ahorrosUpdated = true;
+                    console.log('✅ Contador Ahorros actualizado a:', numAhorros);
                 }
             });
             
@@ -1915,6 +1966,12 @@
             }
             if (!adicionalUpdated) {
                 console.warn('⚠️ No se encontró la pestaña de Info Adicional para actualizar');
+            }
+            if (!nuevosCochesUpdated) {
+                console.warn('⚠️ No se encontró la pestaña de Nuevos Coches para actualizar');
+            }
+            if (!ahorrosUpdated) {
+                console.warn('⚠️ No se encontró la pestaña de Ahorros para actualizar');
             }
         }
         
@@ -2073,6 +2130,17 @@
             
             localStorage.setItem('textos_modificados_automechanika', JSON.stringify(textosData));
             console.log('💾 Datos guardados en localStorage (estructura completa con fotos)');
+            
+            // Guardar nuevos coches y ahorros en localStorage
+            if (appData.nuevosCoches) {
+                localStorage.setItem('nuevos_coches_automechanika', JSON.stringify(appData.nuevosCoches));
+                console.log('💾 Nuevos coches guardados:', appData.nuevosCoches.length);
+            }
+            
+            if (appData.ahorros) {
+                localStorage.setItem('ahorros_automechanika', JSON.stringify(appData.ahorros));
+                console.log('💾 Ahorros guardados:', appData.ahorros.length);
+            }
         }
         
         function showAddEmpresaModal() {
@@ -2272,6 +2340,90 @@
                 updateStats();
                 console.log('🗑️ Empresa eliminada:', item.empresa, '(ID:', itemId, ')');
             }
+        }
+        
+        // Funciones para Nuevos Coches
+        function showAddNuevoCocheModal() {
+            if (!appData.nuevosCoches) appData.nuevosCoches = [];
+            const nuevoCoche = {
+                id: 'coche_' + Date.now(),
+                nombre: '',
+                descripcion: ''
+            };
+            appData.nuevosCoches.push(nuevoCoche);
+            saveData();
+            renderNuevosCoches();
+            updateTabCounters();
+            // Scroll al nuevo elemento
+            setTimeout(() => {
+                const container = document.getElementById('nuevosCochesContainer');
+                const lastCard = container.lastElementChild;
+                if (lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+        
+        function updateNuevoCoche(index, field, value) {
+            if (!appData.nuevosCoches) appData.nuevosCoches = [];
+            appData.nuevosCoches[index][field] = value;
+            saveData();
+        }
+        
+        function deleteNuevoCoche(index) {
+            if (confirm('¿Estás seguro de que quieres eliminar este coche?')) {
+                appData.nuevosCoches.splice(index, 1);
+                saveData();
+                renderNuevosCoches();
+                updateTabCounters();
+            }
+        }
+        
+        // Funciones para Ahorros
+        function showAddAhorroModal() {
+            if (!appData.ahorros) appData.ahorros = [];
+            const nuevoAhorro = {
+                id: 'ahorro_' + Date.now(),
+                empresa: '',
+                producto: '',
+                precioActual: '',
+                precioNuevo: '',
+                unidadesAno: '',
+                ahorroTotal: 0
+            };
+            appData.ahorros.push(nuevoAhorro);
+            saveData();
+            renderAhorros();
+            updateTabCounters();
+            // Scroll al nuevo elemento
+            setTimeout(() => {
+                const container = document.getElementById('ahorrosContainer');
+                const lastCard = container.lastElementChild;
+                if (lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+        
+        function updateAhorro(index, field, value) {
+            if (!appData.ahorros) appData.ahorros = [];
+            appData.ahorros[index][field] = value;
+            
+            // Calcular ahorro total automáticamente
+            const item = appData.ahorros[index];
+            const precioActual = parseFloat(item.precioActual || 0);
+            const precioNuevo = parseFloat(item.precioNuevo || 0);
+            const unidadesAno = parseFloat(item.unidadesAno || 0);
+            const ahorroUnitario = precioActual - precioNuevo;
+            item.ahorroTotal = ahorroUnitario * unidadesAno;
+            
+            saveData();
+        }
+        
+        function deleteAhorro(index) {
+            if (confirm('¿Estás seguro de que quieres eliminar este ahorro?')) {
+                appData.ahorros.splice(index, 1);
+                saveData();
+                renderAhorros();
+                updateTabCounters();
+            }
+        }
 
         function addFotos(type, index, files) {
             const item = appData[type][index];
@@ -2302,6 +2454,8 @@
         function renderAll() {
             renderReuniones();
             renderAdicional();
+            renderNuevosCoches();
+            renderAhorros();
             
             // Aplicar auto-resize a todos los textareas después de renderizar
             setTimeout(() => {
@@ -2538,6 +2692,130 @@
                         `}
                         
                         ${renderSeguimiento('adicional', realIdx, item)}
+                    </div>
+                </div>
+            `}).join('');
+        }
+        
+        function renderNuevosCoches() {
+            const container = document.getElementById('nuevosCochesContainer');
+            if (!appData.nuevosCoches) appData.nuevosCoches = [];
+            
+            console.log('🎨 Renderizando nuevos coches - Total:', appData.nuevosCoches.length);
+            
+            if (appData.nuevosCoches.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #9ca3af; background: white; border-radius: 12px;"><p>No hay coches registrados. Haz clic en "➕ Añadir Nuevo Coche" para comenzar.</p></div>';
+                return;
+            }
+            
+            container.innerHTML = appData.nuevosCoches.map((item, idx) => {
+                return `
+                <div class="item-card">
+                    <div class="item-header" style="position: relative;">
+                        <div class="item-company">
+                            ${escapeHtml(item.nombre || 'Sin nombre')}
+                        </div>
+                        <div style="position: absolute; top: 10px; right: 10px;">
+                            <button onclick="deleteNuevoCoche(${idx})" style="background: #ef4444; color: white; border: none; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                    <div class="item-body">
+                        <div class="form-group">
+                            <label>🚗 Nombre del Coche</label>
+                            <input type="text" value="${escapeHtml(item.nombre || '')}" 
+                                onchange="updateNuevoCoche(${idx}, 'nombre', this.value)"
+                                placeholder="Nombre del coche" style="font-weight: 600;">
+                        </div>
+                        <div class="form-group">
+                            <label>📝 Descripción</label>
+                            <textarea 
+                                class="auto-resize-textarea"
+                                onchange="updateNuevoCoche(${idx}, 'descripcion', this.value)"
+                                placeholder="Añade una descripción del coche..."
+                                style="min-height: 100px;">${escapeHtml(item.descripcion || '')}</textarea>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+        
+        function renderAhorros() {
+            const container = document.getElementById('ahorrosContainer');
+            if (!appData.ahorros) appData.ahorros = [];
+            
+            console.log('🎨 Renderizando ahorros - Total:', appData.ahorros.length);
+            
+            if (appData.ahorros.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #9ca3af; background: white; border-radius: 12px;"><p>No hay ahorros registrados. Haz clic en "➕ Añadir Ahorro" para comenzar.</p></div>';
+                return;
+            }
+            
+            container.innerHTML = appData.ahorros.map((item, idx) => {
+                const precioActual = parseFloat(item.precioActual || 0);
+                const precioNuevo = parseFloat(item.precioNuevo || 0);
+                const unidadesAno = parseFloat(item.unidadesAno || 0);
+                const ahorroUnitario = precioActual - precioNuevo;
+                const ahorroTotal = ahorroUnitario * unidadesAno;
+                
+                return `
+                <div class="item-card">
+                    <div class="item-header" style="position: relative;">
+                        <div class="item-company">
+                            ${escapeHtml(item.empresa || 'Sin empresa')}
+                        </div>
+                        <div style="position: absolute; top: 10px; right: 10px;">
+                            <button onclick="deleteAhorro(${idx})" style="background: #ef4444; color: white; border: none; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;">
+                                🗑️
+                            </button>
+                        </div>
+                        <div class="item-meta">
+                            <span>💰 Ahorro Total: ${ahorroTotal.toLocaleString('es-ES', {style: 'currency', currency: 'EUR'})}</span>
+                        </div>
+                    </div>
+                    <div class="item-body">
+                        <div class="form-group">
+                            <label>🏢 Nombre de Empresa</label>
+                            <input type="text" value="${escapeHtml(item.empresa || '')}" 
+                                onchange="updateAhorro(${idx}, 'empresa', this.value)"
+                                placeholder="Nombre de la empresa" style="font-weight: 600;">
+                        </div>
+                        <div class="form-group">
+                            <label>📦 Producto</label>
+                            <input type="text" value="${escapeHtml(item.producto || '')}" 
+                                onchange="updateAhorro(${idx}, 'producto', this.value)"
+                                placeholder="Producto">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div class="form-group">
+                                <label>💵 Precio Actual</label>
+                                <input type="number" step="0.01" value="${item.precioActual || ''}" 
+                                    onchange="updateAhorro(${idx}, 'precioActual', this.value); renderAhorros();"
+                                    placeholder="0.00">
+                            </div>
+                            <div class="form-group">
+                                <label>💵 Precio Nuevo</label>
+                                <input type="number" step="0.01" value="${item.precioNuevo || ''}" 
+                                    onchange="updateAhorro(${idx}, 'precioNuevo', this.value); renderAhorros();"
+                                    placeholder="0.00">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>📊 Unidades/Año</label>
+                            <input type="number" step="1" value="${item.unidadesAno || ''}" 
+                                onchange="updateAhorro(${idx}, 'unidadesAno', this.value); renderAhorros();"
+                                placeholder="0">
+                        </div>
+                        <div class="form-group" style="background: #f0fdf4; padding: 12px; border-radius: 8px; border: 2px solid #10b981;">
+                            <label style="color: #166534; font-weight: 700;">💰 Ahorro Total Calculado</label>
+                            <div style="font-size: 24px; font-weight: 700; color: #166534; margin-top: 8px;">
+                                ${ahorroTotal.toLocaleString('es-ES', {style: 'currency', currency: 'EUR'})}
+                            </div>
+                            <div style="font-size: 12px; color: #059669; margin-top: 4px;">
+                                Ahorro unitario: ${ahorroUnitario.toLocaleString('es-ES', {style: 'currency', currency: 'EUR'})} × ${unidadesAno.toLocaleString('es-ES')} unidades
+                            </div>
+                        </div>
                     </div>
                 </div>
             `}).join('');
