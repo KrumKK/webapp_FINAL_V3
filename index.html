@@ -2839,12 +2839,34 @@
             
             console.log('🎨 Renderizando ahorros - Total:', appData.ahorros.length);
             
+            // Calcular suma total de todos los ahorros
+            let sumaTotalAhorros = 0;
+            appData.ahorros.forEach(item => {
+                const precioActual = parseFloat(item.precioActual || 0);
+                const precioNuevo = parseFloat(item.precioNuevo || 0);
+                const unidadesAno = parseFloat(item.unidadesAno || 0);
+                const ahorroUnitario = precioActual - precioNuevo;
+                const ahorroTotal = ahorroUnitario * unidadesAno;
+                sumaTotalAhorros += ahorroTotal;
+            });
+            
+            const sumaFormateada = formatearMoneda(sumaTotalAhorros);
+            
             if (appData.ahorros.length === 0) {
                 container.innerHTML = '<div style="text-align: center; padding: 40px; color: #9ca3af; background: white; border-radius: 12px;"><p>No hay ahorros registrados. Haz clic en "➕ Añadir Ahorro" para comenzar.</p></div>';
                 return;
             }
             
-            container.innerHTML = appData.ahorros.map((item, idx) => {
+            // Crear HTML con el resumen total y las empresas
+            let html = `
+                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 30px; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3); text-align: center;">
+                    <div style="font-size: 16px; font-weight: 700; margin-bottom: 12px; opacity: 0.95; text-transform: uppercase; letter-spacing: 1.5px;">💰 TOTAL AHORROS CONSEGUIDOS</div>
+                    <div style="font-size: 56px; font-weight: 900; margin: 15px 0; text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); line-height: 1.2;">${sumaFormateada}</div>
+                    <div style="font-size: 14px; opacity: 0.9; margin-top: 8px; font-weight: 500;">${appData.ahorros.length} ${appData.ahorros.length === 1 ? 'ahorro registrado' : 'ahorros registrados'}</div>
+                </div>
+            `;
+            
+            html += appData.ahorros.map((item, idx) => {
                 const precioActual = parseFloat(item.precioActual || 0);
                 const precioNuevo = parseFloat(item.precioNuevo || 0);
                 const unidadesAno = parseFloat(item.unidadesAno || 0);
@@ -2914,6 +2936,8 @@
                     </div>
                 </div>
             `}).join('');
+            
+            container.innerHTML = html;
         }
         
         function renderSeguimiento(type, index, item) {
@@ -3812,6 +3836,23 @@ Sistema de Seguimiento Automechanika`;
                         return !estaEliminada;
                     });
                     console.log('🗑️ Adicional antes:', antes, 'después:', datosBase.adicional.length);
+                }
+                
+                // Añadir nuevos campos (nuevosCoches y ahorros) al JSON exportado
+                console.log('🚗 Añadiendo nuevos coches al JSON exportado...');
+                if (appData.nuevosCoches && appData.nuevosCoches.length > 0) {
+                    datosBase.nuevosCoches = appData.nuevosCoches;
+                    console.log('✅ Nuevos coches añadidos:', appData.nuevosCoches.length);
+                } else {
+                    datosBase.nuevosCoches = [];
+                }
+                
+                console.log('💰 Añadiendo ahorros al JSON exportado...');
+                if (appData.ahorros && appData.ahorros.length > 0) {
+                    datosBase.ahorros = appData.ahorros;
+                    console.log('✅ Ahorros añadidos:', appData.ahorros.length);
+                } else {
+                    datosBase.ahorros = [];
                 }
                 
                 // Generar JSON
