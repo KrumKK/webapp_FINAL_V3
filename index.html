@@ -1391,7 +1391,7 @@
             
             <div class="config-group">
                 <label>Miembros del Equipo (separados por comas)</label>
-                <textarea id="configEquipo">Krum Kovachev, Equipo Técnico, Equipo Comercial, Dirección, Sin asignar</textarea>
+                <textarea id="configEquipo">Innovación, Calidad, Comercial, Dirección, Compras</textarea>
             </div>
             
             <div class="config-group">
@@ -1423,7 +1423,7 @@
         let appConfig = {
             titulo: 'Seguimiento Automechanika Shanghai 2025',
             subtitulo: 'Lizarte - Sistema de Gestión de Contactos',
-            equipo: 'Krum Kovachev, Equipo Técnico, Equipo Comercial, Dirección, Sin asignar',
+            equipo: 'Innovación, Calidad, Comercial, Dirección, Compras',
             notas: ''
         };
         
@@ -1697,7 +1697,7 @@
                 console.log('👥 Equipo cargado:', equipoLizarte);
             } else {
                 // Usar valor por defecto si no hay equipo válido
-                const defaultEquipo = 'Krum Kovachev, Equipo Técnico, Equipo Comercial, Dirección, Sin asignar';
+                const defaultEquipo = 'Innovación, Calidad, Comercial, Dirección, Compras';
                 equipoLizarte = defaultEquipo.split(',').map(e => e.trim()).filter(e => e.length > 0);
                 console.log('👥 Usando equipo por defecto:', equipoLizarte);
             }
