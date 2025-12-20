@@ -1651,20 +1651,44 @@
                     appData.ahorros.forEach(item => {
                         if (!item.moneda) item.moneda = 'EUR';
                         if (!item.tasaCambio) item.tasaCambio = 1;
-                        // Si no tiene valores EUR, inicializarlos (se convertirán cuando se renderice)
-                        if (item.precioActualEUR === undefined) {
-                            item.precioActualEUR = item.moneda === 'EUR' ? parseFloat(item.precioActual || 0) : 0;
+                        
+                        // Si es EUR y no tiene valores EUR, usar valores originales
+                        if (item.moneda === 'EUR') {
+                            if (item.precioActualEUR === undefined) {
+                                item.precioActualEUR = parseFloat(item.precioActual || 0);
+                            }
+                            if (item.precioNuevoEUR === undefined) {
+                                item.precioNuevoEUR = parseFloat(item.precioNuevo || 0);
+                            }
                         }
-                        if (item.precioNuevoEUR === undefined) {
-                            item.precioNuevoEUR = item.moneda === 'EUR' ? parseFloat(item.precioNuevo || 0) : 0;
+                        // Si es USD y no tiene valores EUR, inicializar a 0 temporalmente
+                        // Se convertirán cuando se renderice o cuando se actualice
+                        else if (item.moneda === 'USD') {
+                            if (item.precioActualEUR === undefined) {
+                                item.precioActualEUR = 0;
+                            }
+                            if (item.precioNuevoEUR === undefined) {
+                                item.precioNuevoEUR = 0;
+                            }
                         }
                     });
                     
-                    // Convertir ahorros en USD a EUR si es necesario
-                    appData.ahorros.forEach(async (item, idx) => {
-                        if (item.moneda === 'USD' && (!item.tasaCambio || item.tasaCambio === 1)) {
+                    // Convertir ahorros en USD a EUR si es necesario (de forma asíncrona)
+                    const conversionPromises = appData.ahorros.map(async (item, idx) => {
+                        if (item.moneda === 'USD' && (item.precioActualEUR === 0 || item.precioActualEUR === undefined)) {
                             await convertirAhorroAEUR(idx);
                         }
+                    });
+                    
+                    // Esperar a que todas las conversiones se completen antes de continuar
+                    Promise.all(conversionPromises).then(() => {
+                        console.log('✅ Conversiones de ahorros completadas');
+                        saveData(); // Guardar los valores convertidos
+                        if (appData) {
+                            updateStats(); // Actualizar estadísticas con valores correctos
+                        }
+                    }).catch(error => {
+                        console.error('❌ Error en conversiones de ahorros:', error);
                     });
                 }
             } catch (error) {
@@ -2109,8 +2133,12 @@
             if (stat4El) stat4El.textContent = numOportunidades;
             const stat5El = document.getElementById('stat5');
             if (stat5El) {
-                const ahorroFormateado = formatearMoneda(ahorroTotal);
-                stat5El.textContent = ahorroFormateado;
+                // Solo actualizar si el splash screen no está visible
+                const splashScreen = document.getElementById('splashScreen');
+                if (!splashScreen || splashScreen.style.display === 'none') {
+                    const ahorroFormateado = formatearMoneda(ahorroTotal);
+                    stat5El.textContent = ahorroFormateado;
+                }
             }
         }
         
@@ -4534,8 +4562,32 @@ Sistema de Seguimiento Automechanika`;
                 if (ahorrosData) {
                     try {
                         const ahorros = JSON.parse(ahorrosData);
+                        
+                        // Convertir ahorros en USD a EUR si es necesario
+                        const conversionPromises = ahorros.map(async (item) => {
+                            const moneda = item.moneda || 'EUR';
+                            if (moneda === 'USD' && (!item.precioActualEUR || item.precioActualEUR === 0)) {
+                                // Convertir a EUR si no está convertido
+                                const tasaCambio = await obtenerTasaCambioUSD();
+                                item.precioActualEUR = parseFloat(item.precioActual || 0) * tasaCambio;
+                                item.precioNuevoEUR = parseFloat(item.precioNuevo || 0) * tasaCambio;
+                                item.tasaCambio = tasaCambio;
+                            } else if (moneda === 'EUR') {
+                                // Si es EUR, usar valores originales si no hay valores EUR guardados
+                                if (item.precioActualEUR === undefined) {
+                                    item.precioActualEUR = parseFloat(item.precioActual || 0);
+                                }
+                                if (item.precioNuevoEUR === undefined) {
+                                    item.precioNuevoEUR = parseFloat(item.precioNuevo || 0);
+                                }
+                            }
+                        });
+                        
+                        // Esperar a que todas las conversiones se completen
+                        await Promise.all(conversionPromises);
+                        
+                        // Calcular total en EUR
                         ahorros.forEach(item => {
-                            // Usar valores en EUR si existen, sino usar valores originales
                             const precioActualEUR = item.precioActualEUR !== undefined ? item.precioActualEUR : parseFloat(item.precioActual || 0);
                             const precioNuevoEUR = item.precioNuevoEUR !== undefined ? item.precioNuevoEUR : parseFloat(item.precioNuevo || 0);
                             const unidadesAno = parseFloat(item.unidadesAno || 0);
