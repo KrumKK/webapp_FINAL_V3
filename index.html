@@ -4730,14 +4730,31 @@ Sistema de Seguimiento Automechanika`;
                     numFotos += (item.fotos_extra || []).length;
                 });
                 
-                // Calcular ahorro total desde localStorage
+                // Calcular ahorro total desde localStorage o appData
                 let ahorroTotal = 0;
-                const ahorrosData = localStorage.getItem('ahorros_automechanika');
-                console.log('💰 Datos de ahorros en localStorage:', ahorrosData ? 'Existen' : 'No existen');
+                let ahorros = [];
                 
-                if (ahorrosData) {
+                // Primero intentar desde appData (si está disponible)
+                if (appData && appData.ahorros && appData.ahorros.length > 0) {
+                    console.log('💰 Ahorros encontrados en appData:', appData.ahorros.length);
+                    ahorros = appData.ahorros;
+                } else {
+                    // Si no hay en appData, intentar desde localStorage
+                    const ahorrosData = localStorage.getItem('ahorros_automechanika');
+                    console.log('💰 Datos de ahorros en localStorage:', ahorrosData ? 'Existen' : 'No existen');
+                    
+                    if (ahorrosData) {
+                        try {
+                            ahorros = JSON.parse(ahorrosData);
+                            console.log('💰 Ahorros cargados desde localStorage:', ahorros.length);
+                        } catch (error) {
+                            console.error('❌ Error parseando ahorros desde localStorage:', error);
+                        }
+                    }
+                }
+                
+                if (ahorros && ahorros.length > 0) {
                     try {
-                        const ahorros = JSON.parse(ahorrosData);
                         console.log('💰 Ahorros parseados:', ahorros.length, 'items');
                         
                         // Convertir ahorros en USD a EUR si es necesario
