@@ -1183,5 +1183,76 @@
         "email": "oscar@lizarte.com"
       }
     }
+  ],
+  "nuevosCoches": [
+    {
+      "id": "coche_1766140582013",
+      "nombre": "ARCFOX",
+      "descripcion": "ARCFOX (极狐) fue fundada en 2017 como la marca de vehículos eléctricos premium del grupo estatal BAIC Group. En 2024 vendió 81,000 unidades, un crecimiento del 170% respecto al año anterior, con ingresos estimados de aproximadamente $1,000 millones USD. Desde 2022 mantiene una alianza estratégica con Huawei para sistemas operativos y conducción autónoma. Su portafolio incluye el Alpha S5 (desde $18,000 USD) y el innovador Kaola, un MPV diseñado para familias. La marca se está expandiendo internacionalmente hacia Europa, Medio Oriente y Latinoamérica. Compite directamente con NIO y Xpeng en el segmento de EVs premium de precio medio-alto. Su principal desafío sigue siendo alcanzar rentabilidad en un mercado extremadamente competitivo."
+    },
+    {
+      "id": "coche_1766152842149",
+      "nombre": "BEIJING AUTO (GEIJING)",
+      "descripcion": "BEIJING Auto pertenece a BAIC Group, fundado en 1958 como el sexto mayor fabricante de automóviles de China. La marca Beijing fue relanzada en 2020, enfocándose en vehículos de combustión, híbridos y eléctricos para el mercado masivo. El grupo BAIC completo vendió 1.71 millones de vehículos en 2024, con ingresos superiores a $66,700 millones USD. Su portafolio incluye los SUV X7 y X55 (desde $14,900 USD) y la submarca Beijing Off-Road con los icónicos BJ40 y BJ60, todoterrenos inspirados en el clásico jeep militar chino. BAIC opera joint ventures con Mercedes-Benz y Hyundai. Es una marca estatal con fuerte respaldo gubernamental del municipio de Beijing."
+    },
+    {
+      "id": "coche_1766152855991",
+      "nombre": "TANK",
+      "descripcion": "TANK (坦克) fue lanzada como marca independiente en abril de 2021 por Great Wall Motors (GWM), especializada en SUVs todoterreno \"neo-retro\" premium. En 2024 vendió 231,001 unidades (+42% interanual), representando el 19% de las ventas totales de GWM, con ingresos estimados de $10,000-13,000 millones USD. El Tank 300 es el modelo insignia con más de 280,000 unidades vendidas acumuladas. La gama incluye el Tank 500 de 7 plazas y el premium Tank 700 Hi4-T con motor V6 híbrido (hasta $97,000 USD). Tank ha creado una nueva categoría en China: todoterrenos de nueva energía. Compite contra Yangwang (BYD), Dongfeng Mengshi y Land Rover. Su expansión internacional abarca Australia, México, Arabia Saudita y Sudáfrica.\n"
+    },
+    {
+      "id": "coche_1766152857801",
+      "nombre": "AION",
+      "descripcion": "AION (埃安) fue establecida en julio de 2017 como GAC New Energy, convirtiéndose en marca independiente en noviembre de 2020 bajo GAC Group. En diciembre de 2023 logró alcanzar 1 millón de vehículos producidos en solo 4 años y 8 meses, el tiempo más rápido de cualquier marca EV mundial. En 2024 vendió 412,943 unidades, aunque experimentó una caída del 14% por la falta de modelos híbridos enchufables. Los modelos principales son el Aion S y Aion Y (desde $12,500 USD), que representan el 85% de las ventas. La submarca premium Hyptec incluye el hiperdeportivo SSR de 1,224 hp ($180,000-235,000 USD). Es la tercera marca BEV más grande globalmente después de Tesla y BYD. Tiene capacidad de producción de 800,000 unidades anuales y se expande a Tailandia, Indonesia y México."
+    },
+    {
+      "id": "coche_1766152859377",
+      "nombre": "ONVO",
+      "descripcion": "ONVO (乐道) fue revelada oficialmente el 15 de mayo de 2024 y pertenece 100% a NIO Inc., diseñada para competir en el segmento de mercado masivo de $27,800-41,700 USD. El primer modelo, el SUV coupé L60, se lanzó en septiembre de 2024 como rival directo del Tesla Model Y. En sus primeros 100 días entregó 20,761 unidades, superando las 10,000 entregas mensuales en diciembre. El L60 destaca por su precio competitivo: desde $20,800 USD con el sistema BaaS de alquiler de batería, compartiendo la infraestructura de intercambio de baterías de NIO. Ofrece autonomía de hasta 730 km y arquitectura de 900V. El segundo modelo, el SUV de 3 filas L90, llegará en julio de 2025. NIO apunta a 100,000 ventas de ONVO en 2025."
+    },
+    {
+      "id": "coche_1766152904233",
+      "nombre": "AVATR",
+      "descripcion": "AVATR (阿维塔) fue fundada el 10 de julio de 2018 como joint venture entre Changan y NIO, siendo renombrada en agosto de 2021 tras incorporar a CATL como accionista. La estructura actual incluye a Changan (41%), CATL (14%) y otros inversores, con Huawei como socio tecnológico estratégico. En 2024 vendió 73,606 unidades, un crecimiento del 132%, con ingresos de $500-600 millones USD. Los modelos incluyen el SUV AVATR 11 (desde $41,800 USD) y el sedán AVATR 12 (desde $37,500 USD). Utiliza sistema de conducción autónoma Huawei ADS 3.0 con 3 LiDAR y HarmonyOS 4.0. Planea salir a bolsa en Hong Kong en 2026 con objetivos de 400,000 unidades para 2027 y 1.5 millones para 2035.\n"
+    },
+    {
+      "id": "coche_1766152906523",
+      "nombre": "AITO",
+      "descripcion": "AITO (问界) fue fundada el 2 de diciembre de 2021 como la primera marca bajo el modelo HIMA (Harmony Intelligent Mobility Alliance) de Huawei, en colaboración con Seres Group. En 2024 se convirtió en la marca líder entre las \"nuevas fuerzas\" EV con aproximadamente 386,300 unidades vendidas. Los ingresos de Seres alcanzaron $20,160 millones USD (+305%), logrando su primera rentabilidad con un beneficio neto de $826 millones USD. El portafolio incluye el M5, M7 (desde $31,900 USD) y el insignia AITO M9 (desde $65,250 USD), que domina el segmento premium con 150,000 unidades vendidas. La tecnología Huawei es el diferenciador clave: HarmonyOS para cabina y ADS 3.0 para conducción autónoma. Es la cuarta empresa de VE rentable globalmente, después de Tesla, BYD y Li Auto."
+    },
+    {
+      "id": "coche_1766152908601",
+      "nombre": "STELATO",
+      "descripcion": "STELATO (享界) — nota: la ortografía correcta es STELATO, no \"STELANO\" — fue registrada en diciembre de 2023 como la tercera marca bajo el ecosistema HIMA de Huawei, en colaboración con BAIC BluePark. El primer modelo, el sedán ejecutivo S9, se lanzó el 6 de agosto de 2024 con entregas desde septiembre. En sus primeros cuatro meses de ventas logró 7,494 unidades, posicionándose como competidor del Mercedes-Benz EQS y BMW Serie 5. El S9 destaca por su coeficiente aerodinámico de 0.193 Cd (el más bajo entre sedanes ejecutivos), Huawei ADS 3.0, 4 sensores LiDAR y autonomía de hasta 816 km. El precio oscila entre $43,000-62,500 USD. La capacidad de producción inicial es de 120,000 unidades anuales, expandible a 300,000."
+    }
+  ],
+  "ahorros": [
+    {
+      "id": "ahorro_1766141065695",
+      "empresa": "YAS",
+      "producto": "06701575",
+      "precioActual": "42",
+      "precioNuevo": "38",
+      "unidadesAno": "1000",
+      "ahorroTotal": 4000
+    },
+    {
+      "id": "ahorro_1766141135837",
+      "empresa": "YAS",
+      "producto": "01629000",
+      "precioActual": "80",
+      "precioNuevo": "75",
+      "unidadesAno": "500",
+      "ahorroTotal": 2500
+    },
+    {
+      "id": "ahorro_1766141168518",
+      "empresa": "YAS",
+      "producto": "06701405",
+      "precioActual": "33",
+      "precioNuevo": "29",
+      "unidadesAno": "3000",
+      "ahorroTotal": 12000
+    }
   ]
 }
