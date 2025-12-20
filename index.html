@@ -1646,6 +1646,26 @@
                 if (ahorrosData) {
                     appData.ahorros = JSON.parse(ahorrosData);
                     console.log('💰 Ahorros cargados desde localStorage:', appData.ahorros.length);
+                    
+                    // Inicializar campos faltantes en ahorros existentes
+                    appData.ahorros.forEach(item => {
+                        if (!item.moneda) item.moneda = 'EUR';
+                        if (!item.tasaCambio) item.tasaCambio = 1;
+                        // Si no tiene valores EUR, inicializarlos (se convertirán cuando se renderice)
+                        if (item.precioActualEUR === undefined) {
+                            item.precioActualEUR = item.moneda === 'EUR' ? parseFloat(item.precioActual || 0) : 0;
+                        }
+                        if (item.precioNuevoEUR === undefined) {
+                            item.precioNuevoEUR = item.moneda === 'EUR' ? parseFloat(item.precioNuevo || 0) : 0;
+                        }
+                    });
+                    
+                    // Convertir ahorros en USD a EUR si es necesario
+                    appData.ahorros.forEach(async (item, idx) => {
+                        if (item.moneda === 'USD' && (!item.tasaCambio || item.tasaCambio === 1)) {
+                            await convertirAhorroAEUR(idx);
+                        }
+                    });
                 }
             } catch (error) {
                 console.error('❌ Error al cargar nuevos coches o ahorros desde localStorage:', error);
@@ -2064,15 +2084,16 @@
                 numFotos += (Array.isArray(item.fotos_extra) ? item.fotos_extra.length : 0);
             });
             
-            // Calcular ahorro total
+            // Calcular ahorro total en EUR
             let ahorroTotal = 0;
             if (appData.ahorros && appData.ahorros.length > 0) {
                 appData.ahorros.forEach(item => {
-                    const precioActual = parseFloat(item.precioActual || 0);
-                    const precioNuevo = parseFloat(item.precioNuevo || 0);
+                    // Usar valores en EUR si existen, sino usar valores originales
+                    const precioActualEUR = item.precioActualEUR !== undefined ? item.precioActualEUR : parseFloat(item.precioActual || 0);
+                    const precioNuevoEUR = item.precioNuevoEUR !== undefined ? item.precioNuevoEUR : parseFloat(item.precioNuevo || 0);
                     const unidadesAno = parseFloat(item.unidadesAno || 0);
-                    const ahorroUnitario = precioActual - precioNuevo;
-                    const ahorroItem = ahorroUnitario * unidadesAno;
+                    const ahorroUnitarioEUR = precioActualEUR - precioNuevoEUR;
+                    const ahorroItem = ahorroUnitarioEUR * unidadesAno;
                     ahorroTotal += ahorroItem;
                 });
             }
@@ -2481,6 +2502,10 @@
                     precioActual: '',
                     precioNuevo: '',
                     unidadesAno: '',
+                    moneda: 'EUR', // Por defecto EUR
+                    tasaCambio: 1,
+                    precioActualEUR: 0,
+                    precioNuevoEUR: 0,
                     ahorroTotal: 0
                 };
                 appData.ahorros.push(nuevoAhorro);
@@ -2502,19 +2527,27 @@
             }
         }
         
-        function updateAhorro(index, field, value) {
+        async function updateAhorro(index, field, value) {
             if (!appData.ahorros) appData.ahorros = [];
             appData.ahorros[index][field] = value;
             
-            // Calcular ahorro total automáticamente
             const item = appData.ahorros[index];
-            const precioActual = parseFloat(item.precioActual || 0);
-            const precioNuevo = parseFloat(item.precioNuevo || 0);
+            
+            // Si cambió la moneda o los precios, convertir a EUR
+            if (field === 'moneda' || field === 'precioActual' || field === 'precioNuevo') {
+                await convertirAhorroAEUR(index);
+            }
+            
+            // Calcular ahorro total automáticamente usando valores en EUR
+            const precioActualEUR = item.precioActualEUR || parseFloat(item.precioActual || 0);
+            const precioNuevoEUR = item.precioNuevoEUR || parseFloat(item.precioNuevo || 0);
             const unidadesAno = parseFloat(item.unidadesAno || 0);
-            const ahorroUnitario = precioActual - precioNuevo;
-            item.ahorroTotal = ahorroUnitario * unidadesAno;
+            const ahorroUnitarioEUR = precioActualEUR - precioNuevoEUR;
+            item.ahorroTotal = ahorroUnitarioEUR * unidadesAno;
             
             saveData();
+            // Re-renderizar para mostrar los valores actualizados
+            renderAhorros();
         }
         
         function deleteAhorro(index) {
@@ -2862,6 +2895,60 @@
             return new Intl.NumberFormat('es-ES', {style: 'currency', currency: 'EUR'}).format(valor);
         }
         
+        function formatearMonedaUSD(valor) {
+            return new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(valor);
+        }
+        
+        // Función para obtener la tasa de cambio USD/EUR desde API
+        async function obtenerTasaCambioUSD() {
+            try {
+                console.log('🔄 Obteniendo tasa de cambio USD/EUR...');
+                const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                if (!response.ok) {
+                    throw new Error('Error al obtener tasa de cambio');
+                }
+                const data = await response.json();
+                const tasaEUR = data.rates.EUR;
+                console.log('✅ Tasa de cambio obtenida:', tasaEUR, 'EUR por 1 USD');
+                return tasaEUR;
+            } catch (error) {
+                console.error('❌ Error al obtener tasa de cambio:', error);
+                // Fallback a tasa aproximada si falla la API
+                console.warn('⚠️ Usando tasa de cambio de respaldo: 0.92');
+                return 0.92;
+            }
+        }
+        
+        // Función para convertir y actualizar valores en EUR
+        async function convertirAhorroAEUR(index) {
+            if (!appData.ahorros || !appData.ahorros[index]) return;
+            
+            const item = appData.ahorros[index];
+            const moneda = item.moneda || 'EUR';
+            
+            // Si ya está en EUR, los valores EUR son iguales a los originales
+            if (moneda === 'EUR') {
+                item.precioActualEUR = parseFloat(item.precioActual || 0);
+                item.precioNuevoEUR = parseFloat(item.precioNuevo || 0);
+                item.tasaCambio = 1;
+                return;
+            }
+            
+            // Si está en USD, obtener tasa de cambio y convertir
+            if (moneda === 'USD') {
+                const tasaCambio = await obtenerTasaCambioUSD();
+                item.tasaCambio = tasaCambio;
+                item.precioActualEUR = parseFloat(item.precioActual || 0) * tasaCambio;
+                item.precioNuevoEUR = parseFloat(item.precioNuevo || 0) * tasaCambio;
+                console.log(`💱 Convertido a EUR (tasa: ${tasaCambio}):`, {
+                    precioActual: item.precioActual,
+                    precioActualEUR: item.precioActualEUR,
+                    precioNuevo: item.precioNuevo,
+                    precioNuevoEUR: item.precioNuevoEUR
+                });
+            }
+        }
+        
         function renderAhorros() {
             if (!appData) {
                 console.warn('⚠️ appData no está inicializado');
@@ -2876,14 +2963,15 @@
             
             console.log('🎨 Renderizando ahorros - Total:', appData.ahorros.length);
             
-            // Calcular suma total de todos los ahorros
+            // Calcular suma total de todos los ahorros en EUR
             let sumaTotalAhorros = 0;
             appData.ahorros.forEach(item => {
-                const precioActual = parseFloat(item.precioActual || 0);
-                const precioNuevo = parseFloat(item.precioNuevo || 0);
+                // Usar valores en EUR si existen, sino usar valores originales (asumiendo EUR)
+                const precioActualEUR = item.precioActualEUR !== undefined ? item.precioActualEUR : parseFloat(item.precioActual || 0);
+                const precioNuevoEUR = item.precioNuevoEUR !== undefined ? item.precioNuevoEUR : parseFloat(item.precioNuevo || 0);
                 const unidadesAno = parseFloat(item.unidadesAno || 0);
-                const ahorroUnitario = precioActual - precioNuevo;
-                const ahorroTotal = ahorroUnitario * unidadesAno;
+                const ahorroUnitarioEUR = precioActualEUR - precioNuevoEUR;
+                const ahorroTotal = ahorroUnitarioEUR * unidadesAno;
                 sumaTotalAhorros += ahorroTotal;
             });
             
@@ -2904,14 +2992,24 @@
             `;
             
             html += appData.ahorros.map((item, idx) => {
+                const moneda = item.moneda || 'EUR';
                 const precioActual = parseFloat(item.precioActual || 0);
                 const precioNuevo = parseFloat(item.precioNuevo || 0);
+                const precioActualEUR = item.precioActualEUR !== undefined ? item.precioActualEUR : precioActual;
+                const precioNuevoEUR = item.precioNuevoEUR !== undefined ? item.precioNuevoEUR : precioNuevo;
                 const unidadesAno = parseFloat(item.unidadesAno || 0);
-                const ahorroUnitario = precioActual - precioNuevo;
-                const ahorroTotal = ahorroUnitario * unidadesAno;
+                const ahorroUnitarioEUR = precioActualEUR - precioNuevoEUR;
+                const ahorroTotal = ahorroUnitarioEUR * unidadesAno;
                 const ahorroTotalFormateado = formatearMoneda(ahorroTotal);
-                const ahorroUnitarioFormateado = formatearMoneda(ahorroUnitario);
+                const ahorroUnitarioFormateado = formatearMoneda(ahorroUnitarioEUR);
                 const unidadesFormateadas = unidadesAno.toLocaleString('es-ES');
+                
+                // Formatear valores originales si es USD
+                const precioActualOriginalFormateado = moneda === 'USD' ? formatearMonedaUSD(precioActual) : formatearMoneda(precioActual);
+                const precioNuevoOriginalFormateado = moneda === 'USD' ? formatearMonedaUSD(precioNuevo) : formatearMoneda(precioNuevo);
+                const precioActualEURFormateado = formatearMoneda(precioActualEUR);
+                const precioNuevoEURFormateado = formatearMoneda(precioNuevoEUR);
+                const tasaCambio = item.tasaCambio || 1;
                 
                 return `
                 <div class="item-card">
@@ -2926,6 +3024,7 @@
                         </div>
                         <div class="item-meta">
                             <span>💰 Ahorro Total: ${ahorroTotalFormateado}</span>
+                            ${moneda === 'USD' ? `<span style="margin-left: 10px; font-size: 11px; opacity: 0.8;">(${formatearMonedaUSD((precioActual - precioNuevo) * unidadesAno)})</span>` : ''}
                         </div>
                     </div>
                     <div class="item-body">
@@ -2941,31 +3040,53 @@
                                 onchange="updateAhorro(${idx}, 'producto', this.value)"
                                 placeholder="Producto">
                         </div>
+                        <div class="form-group">
+                            <label>💱 Moneda</label>
+                            <select onchange="updateAhorro(${idx}, 'moneda', this.value)" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                                <option value="EUR" ${moneda === 'EUR' ? 'selected' : ''}>EUR (Euro)</option>
+                                <option value="USD" ${moneda === 'USD' ? 'selected' : ''}>USD (Dólar)</option>
+                            </select>
+                        </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                             <div class="form-group">
-                                <label>💵 Precio Actual</label>
+                                <label>💵 Precio Actual ${moneda === 'USD' ? '(USD)' : '(EUR)'}</label>
                                 <input type="number" step="0.01" value="${item.precioActual || ''}" 
-                                    onchange="updateAhorro(${idx}, 'precioActual', this.value); renderAhorros();"
+                                    onchange="updateAhorro(${idx}, 'precioActual', this.value)"
                                     placeholder="0.00">
+                                ${moneda === 'USD' && precioActual > 0 ? `
+                                    <div style="font-size: 11px; color: #6b7280; margin-top: 4px;">
+                                        ≈ ${precioActualEURFormateado} EUR (tasa: ${tasaCambio.toFixed(4)})
+                                    </div>
+                                ` : ''}
                             </div>
                             <div class="form-group">
-                                <label>💵 Precio Nuevo</label>
+                                <label>💵 Precio Nuevo ${moneda === 'USD' ? '(USD)' : '(EUR)'}</label>
                                 <input type="number" step="0.01" value="${item.precioNuevo || ''}" 
-                                    onchange="updateAhorro(${idx}, 'precioNuevo', this.value); renderAhorros();"
+                                    onchange="updateAhorro(${idx}, 'precioNuevo', this.value)"
                                     placeholder="0.00">
+                                ${moneda === 'USD' && precioNuevo > 0 ? `
+                                    <div style="font-size: 11px; color: #6b7280; margin-top: 4px;">
+                                        ≈ ${precioNuevoEURFormateado} EUR (tasa: ${tasaCambio.toFixed(4)})
+                                    </div>
+                                ` : ''}
                             </div>
                         </div>
                         <div class="form-group">
                             <label>📊 Unidades/Año</label>
                             <input type="number" step="1" value="${item.unidadesAno || ''}" 
-                                onchange="updateAhorro(${idx}, 'unidadesAno', this.value); renderAhorros();"
+                                onchange="updateAhorro(${idx}, 'unidadesAno', this.value)"
                                 placeholder="0">
                         </div>
                         <div class="form-group" style="background: #f0fdf4; padding: 12px; border-radius: 8px; border: 2px solid #10b981;">
-                            <label style="color: #166534; font-weight: 700;">💰 Ahorro Total Calculado</label>
+                            <label style="color: #166534; font-weight: 700;">💰 Ahorro Total Calculado (EUR)</label>
                             <div style="font-size: 24px; font-weight: 700; color: #166534; margin-top: 8px;">
                                 ${ahorroTotalFormateado}
                             </div>
+                            ${moneda === 'USD' && ahorroTotal > 0 ? `
+                                <div style="font-size: 12px; color: #059669; margin-top: 4px;">
+                                    Original: ${formatearMonedaUSD((precioActual - precioNuevo) * unidadesAno)} USD
+                                </div>
+                            ` : ''}
                             <div style="font-size: 12px; color: #059669; margin-top: 4px;">
                                 Ahorro unitario: ${ahorroUnitarioFormateado} × ${unidadesFormateadas} unidades
                             </div>
@@ -4414,11 +4535,12 @@ Sistema de Seguimiento Automechanika`;
                     try {
                         const ahorros = JSON.parse(ahorrosData);
                         ahorros.forEach(item => {
-                            const precioActual = parseFloat(item.precioActual || 0);
-                            const precioNuevo = parseFloat(item.precioNuevo || 0);
+                            // Usar valores en EUR si existen, sino usar valores originales
+                            const precioActualEUR = item.precioActualEUR !== undefined ? item.precioActualEUR : parseFloat(item.precioActual || 0);
+                            const precioNuevoEUR = item.precioNuevoEUR !== undefined ? item.precioNuevoEUR : parseFloat(item.precioNuevo || 0);
                             const unidadesAno = parseFloat(item.unidadesAno || 0);
-                            const ahorroUnitario = precioActual - precioNuevo;
-                            const ahorroItem = ahorroUnitario * unidadesAno;
+                            const ahorroUnitarioEUR = precioActualEUR - precioNuevoEUR;
+                            const ahorroItem = ahorroUnitarioEUR * unidadesAno;
                             ahorroTotal += ahorroItem;
                         });
                     } catch (error) {
